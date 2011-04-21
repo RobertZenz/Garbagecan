@@ -27,7 +27,9 @@ public class Main {
 
 		// This works!
 		String[] splittedCommand = regex.split(command);
-		splittedCommand[2] = splittedCommand[2].replaceAll("^'|'$", "");
+		for (int i = 0; i < splittedCommand.length; i++) {
+			splittedCommand[i] = splittedCommand[i].replaceAll("^'|'$", "");
+		}
 		
 		System.out.println("Going to run: " + command);
 
