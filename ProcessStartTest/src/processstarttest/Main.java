@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -19,14 +20,20 @@ public class Main {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		// Passing this in breaks it...
-		String command = "bash -c 'mkdir deleteme'"; //args[0];
+		Pattern regex = Pattern.compile("(?<=^[^']*(?:'[^']?'[^']?)?) (?=(?:[^']*'[^']*')*[^']*$)");
 
+		// Passing this in breaks it...
+		String command = "bash -c 'echo deleteme'"; //args[0];
+
+		// This works!
+		String[] splittedCommand = regex.split(command);
+		splittedCommand[2] = splittedCommand[2].replaceAll("^'|'$", "");
+		
 		System.out.println("Going to run: " + command);
 
 		// Execute a process
 		try {
-			Process proc = Runtime.getRuntime().exec(new String[] {"bash", "-c", "mkdir deleteme"}); // This works!
+			Process proc = Runtime.getRuntime().exec(splittedCommand);
 			proc.waitFor();
 
 			getStreamOutput("Output", proc.getInputStream());
