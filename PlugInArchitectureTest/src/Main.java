@@ -9,6 +9,15 @@ public class Main {
 		Manager manager = new Manager();
 		System.out.println();
 		
+		
+		// These work.
 		manager.run("hello My sweetheart");
+		manager.run("hello Second");
+		manager.run("square 2 9 512");
+		
+		// These fail.
+		manager.run("HElo test");
+		manager.run("square accd");
+		manager.run("hello");
 	}
 }

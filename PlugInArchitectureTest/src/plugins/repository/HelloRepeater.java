@@ -33,8 +33,8 @@ public class HelloRepeater implements Plugin {
 		}
 		
 		String echo = "";
-		for (String item : command) {
-			echo += item + " ";
+		for (int idx = 1; idx < command.length; idx++) {
+			echo += command[idx] + " ";
 		}
 		
 		System.out.println("Hello World! " + echo);
