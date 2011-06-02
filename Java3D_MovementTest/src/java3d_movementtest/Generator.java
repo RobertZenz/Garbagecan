@@ -54,12 +54,12 @@ public class Generator {
 	}
 
 	private static void addCube(BranchGroup group, double x, double y, double z) {
-		ColorCube cube = new ColorCube(0.7);
+		ColorCube cube = new ColorCube(0.2);
 
 		TransformGroup transformGroup = new TransformGroup();
 		Transform3D transform = new Transform3D();
-		Vector3d vector = new Vector3d(x/10, y/10, z/10);
-
+		Vector3d vector = new Vector3d(x, y, z);
+		transform.setTranslation(vector);
 		transformGroup.setTransform(transform);
 		transformGroup.addChild(cube);
 

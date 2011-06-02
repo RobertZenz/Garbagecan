@@ -45,8 +45,8 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		viewerEye.x += (e.getX() - mousePoint.x) / 100;
-		viewerEye.y += (e.getY() - mousePoint.y) / 100;
+		viewerCenter.x += (e.getX() - mousePoint.x) / 100;
+		viewerCenter.y += (e.getY() - mousePoint.y) / 100;
 
 		mousePoint.x = e.getX();
 		mousePoint.y = e.getY();
@@ -57,22 +57,22 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_A:
-				viewerCenter.x -= 0.1f;
+				viewerEye.x -= 0.1f;
 				applyMovement();
 				break;
 
 			case KeyEvent.VK_D:
-				viewerCenter.x += 0.1f;
+				viewerEye.x += 0.1f;
 				applyMovement();
 				break;
 
 			case KeyEvent.VK_S:
-				viewerCenter.z += 0.1f;
+				viewerEye.z += 0.1f;
 				applyMovement();
 				break;
 
 			case KeyEvent.VK_W:
-				viewerCenter.z -= 0.1f;
+				viewerEye.z -= 0.1f;
 				applyMovement();
 				break;
 
