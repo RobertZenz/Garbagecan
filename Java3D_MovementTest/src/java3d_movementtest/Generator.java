@@ -21,6 +21,7 @@ import javax.vecmath.Vector3f;
  * @author Robert 'Bobby' Zenz
  */
 public class Generator {
+	private static int cubes = 10;
 
 	private Generator() {
 	}
@@ -28,20 +29,20 @@ public class Generator {
 	public static void generate(SimpleUniverse universe) {
 		BranchGroup group = new BranchGroup();
 
-		//      y
+		//      y+
 		//      ^
 		//      |
 		//      |
 		//      |
-		//      +--------> x
+		//      +--------> x+
 		//     /
 		//    /
 		//   /
-		//  V z
+		//  V z+
 
-		for (double x = 0; x < 3; x++) {
-			for (double y = 0; y < 3; y++) {
-				for (double z = 0; z < 3; z++) {
+		for (double x = 0; x < cubes; x++) {
+			for (double y = 0; y < cubes; y++) {
+				for (double z = 0; z < cubes; z++) {
 					addCube(group, x, y, z);
 				}
 			}

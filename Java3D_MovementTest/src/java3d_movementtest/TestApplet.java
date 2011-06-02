@@ -17,7 +17,8 @@ import java.awt.event.MouseMotionListener;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
-import javax.vecmath.Vector3f;
+import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 
 /**
  *
@@ -44,28 +45,35 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		System.out.println("mouseMoved");
+		System.out.println(e.getX());
+		viewerEye.x += (e.getX() - mousePoint.x) / 100;
+		viewerEye.y += (e.getY() - mousePoint.y) / 100;
+
+		mousePoint.x = e.getX();
+		mousePoint.y = e.getY();
+
+		applyMovement();
 	}
 
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 			case 65: // A
-				viewVector.x -= 0.01f;
+				viewerCenter.x -= 0.1f;
 				applyMovement();
 				break;
 
 			case 68: // D
-				viewVector.x += 0.01f;
+				viewerCenter.x += 0.1f;
 				applyMovement();
 				break;
 
 			case 83: // S
-				viewVector.z += 0.01f;
+				viewerCenter.z += 0.1f;
 				applyMovement();
 				break;
 
 			case 87: // W
-				viewVector.z -= 0.01f;
+				viewerCenter.z -= 0.1f;
 				applyMovement();
 				break;
 
@@ -79,7 +87,10 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 	}
 	private SimpleUniverse universe;
 	private TransformGroup viewTransform;
-	private Vector3f viewVector = new Vector3f();
+	private Point3d viewerEye = new Point3d(0f, 0f, 12f);
+	private Point3d viewerCenter = new Point3d(0f, 0f, 0f);
+	private Vector3d viewerFrustum = new Vector3d(0f, 1f, 0f);
+	private Point3d mousePoint = new Point3d();
 	private Canvas3D canvas;
 	private MainFrame frame;
 
@@ -109,9 +120,9 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 
 		universe.getViewingPlatform().setNominalViewingTransform();
 		viewTransform = universe.getViewingPlatform().getMultiTransformGroup().getTransformGroup(0);
-		Transform3D transform3d = new Transform3D();
-		viewTransform.getTransform(transform3d);
-		transform3d.get(viewVector);
+		// Transform3D transform3d = new Transform3D();
+		// viewTransform.getTransform(transform3d);
+		// transform3d.get(viewerCenter);
 
 		// Add to the applet
 		add("Center", canvas);
@@ -129,7 +140,8 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 
 	private void applyMovement() {
 		Transform3D moveTransform = new Transform3D();
-		moveTransform.setTranslation(viewVector);
+		moveTransform.lookAt(viewerEye, viewerCenter, viewerFrustum);
+		moveTransform.invert();
 		viewTransform.setTransform(moveTransform);
 	}
 }
