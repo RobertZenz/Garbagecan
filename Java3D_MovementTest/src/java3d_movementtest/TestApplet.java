@@ -45,7 +45,6 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		System.out.println(e.getX());
 		viewerEye.x += (e.getX() - mousePoint.x) / 100;
 		viewerEye.y += (e.getY() - mousePoint.y) / 100;
 
@@ -57,24 +56,28 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-			case 65: // A
+			case KeyEvent.VK_A:
 				viewerCenter.x -= 0.1f;
 				applyMovement();
 				break;
 
-			case 68: // D
+			case KeyEvent.VK_D:
 				viewerCenter.x += 0.1f;
 				applyMovement();
 				break;
 
-			case 83: // S
+			case KeyEvent.VK_S:
 				viewerCenter.z += 0.1f;
 				applyMovement();
 				break;
 
-			case 87: // W
+			case KeyEvent.VK_W:
 				viewerCenter.z -= 0.1f;
 				applyMovement();
+				break;
+
+			case KeyEvent.VK_ESCAPE:
+				System.exit(0);
 				break;
 
 		}
@@ -118,11 +121,9 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 		System.out.println("BigBang: Generating Universe.");
 		Generator.generate(universe);
 
-		universe.getViewingPlatform().setNominalViewingTransform();
 		viewTransform = universe.getViewingPlatform().getMultiTransformGroup().getTransformGroup(0);
-		// Transform3D transform3d = new Transform3D();
-		// viewTransform.getTransform(transform3d);
-		// transform3d.get(viewerCenter);
+
+		applyMovement();
 
 		// Add to the applet
 		add("Center", canvas);
