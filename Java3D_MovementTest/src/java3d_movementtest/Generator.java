@@ -53,7 +53,7 @@ public class Generator {
 	}
 
 	private static void addCube(BranchGroup group, double x, double y, double z) {
-		ColorCube cube = new ColorCube(1);
+		ColorCube cube = new ColorCube(0.2);
 
 		TransformGroup transformGroup = new TransformGroup();
 		Transform3D transform = new Transform3D();

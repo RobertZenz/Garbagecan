@@ -15,6 +15,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
+import javax.vecmath.Vector3f;
 
 /**
  *
@@ -23,27 +26,21 @@ import javax.media.j3d.Canvas3D;
 public class TestApplet extends Applet implements KeyListener, MouseListener, MouseMotionListener {
 
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("mouseClicked");
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		System.out.println("mouseEntered");
 	}
 
 	public void mouseExited(MouseEvent e) {
-		System.out.println("mouseExited");
 	}
 
 	public void mousePressed(MouseEvent e) {
-		System.out.println("mousePressed");
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("mouseReleased");
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		System.out.println("mouseDragged");
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -51,17 +48,38 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 	}
 
 	public void keyPressed(KeyEvent e) {
-		System.out.println("keyPressed");
+		switch (e.getKeyCode()) {
+			case 65: // A
+				viewVector.x -= 0.01f;
+				applyMovement();
+				break;
+
+			case 68: // D
+				viewVector.x += 0.01f;
+				applyMovement();
+				break;
+
+			case 83: // S
+				viewVector.z += 0.01f;
+				applyMovement();
+				break;
+
+			case 87: // W
+				viewVector.z -= 0.01f;
+				applyMovement();
+				break;
+
+		}
 	}
 
 	public void keyReleased(KeyEvent e) {
-		System.out.println("keyRelease");
 	}
 
 	public void keyTyped(KeyEvent e) {
-		System.out.println("keyTyped");
 	}
-
+	private SimpleUniverse universe;
+	private TransformGroup viewTransform;
+	private Vector3f viewVector = new Vector3f();
 	private Canvas3D canvas;
 	private MainFrame frame;
 
@@ -72,8 +90,6 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 	public void setFrame(MainFrame frame) {
 		this.frame = frame;
 	}
-	private SimpleUniverse universe;
-
 
 	public TestApplet() {
 		setLayout(new BorderLayout());
@@ -91,6 +107,12 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 		System.out.println("BigBang: Generating Universe.");
 		Generator.generate(universe);
 
+		universe.getViewingPlatform().setNominalViewingTransform();
+		viewTransform = universe.getViewingPlatform().getMultiTransformGroup().getTransformGroup(0);
+		Transform3D transform3d = new Transform3D();
+		viewTransform.getTransform(transform3d);
+		transform3d.get(viewVector);
+
 		// Add to the applet
 		add("Center", canvas);
 	}
@@ -103,5 +125,11 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 		frame.addKeyListener(this);
 		frame.addMouseListener(this);
 		frame.addMouseMotionListener(this);
+	}
+
+	private void applyMovement() {
+		Transform3D moveTransform = new Transform3D();
+		moveTransform.setTranslation(viewVector);
+		viewTransform.setTransform(moveTransform);
 	}
 }
