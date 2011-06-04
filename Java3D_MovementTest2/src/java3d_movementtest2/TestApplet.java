@@ -1,6 +1,19 @@
 /*
  * Public Domain
  */
+
+/*      y+
+ *      ^
+ *      |
+ *      |
+ *      |
+ *      +--------> x+
+ *     /
+ *    /
+ *   /
+ * V z+
+ */
+
 package java3d_movementtest2;
 
 import com.sun.j3d.utils.applet.MainFrame;
@@ -8,6 +21,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.GraphicsConfiguration;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -33,22 +47,26 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 
 			case KeyEvent.VK_A:
 				viewerEye.z -= speed;
-				move();
+				viewerCenter.z -= speed;
+				look();
 				break;
 
 			case KeyEvent.VK_D:
 				viewerEye.z += speed;
-				move();
+				viewerCenter.z += speed;
+				look();
 				break;
 
 			case KeyEvent.VK_W:
-				viewerEye.x+= speed;
-				move();
+				viewerEye.x += speed;
+				viewerCenter.x += speed;
+				look();
 				break;
 
 			case KeyEvent.VK_S:
 				viewerEye.x -= speed;
-				move();
+				viewerCenter.x -= speed;
+				look();
 				break;
 
 		}
@@ -79,6 +97,11 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 	}
 
 	public void mouseMoved(MouseEvent e) {
+		viewerCenter.z += (e.getX() - mousePoint.x);
+		viewerCenter.y += (e.getY() - mousePoint.y);
+		mousePoint = e.getPoint();
+
+		look();
 	}
 	private MainFrame frame;
 
@@ -96,6 +119,7 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 	private Point3d viewerCenter = new Point3d(10, 0, 0);
 	private Vector3d viewerUp = new Vector3d(0, 1, 0);
 	private TransformGroup viewerTransform;
+	private Point mousePoint = new Point(0, 0);
 
 	public TestApplet() {
 		setLayout(new BorderLayout());
@@ -110,7 +134,7 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 
 		viewerTransform = universe.getViewingPlatform().getMultiTransformGroup().getTransformGroup(0);
 
-		move();
+		look();
 
 		registerEvents();
 
@@ -127,7 +151,8 @@ public class TestApplet extends Applet implements KeyListener, MouseListener, Mo
 		frame.addMouseMotionListener(this);
 	}
 
-	private void move() {
+	private void look() {
+		// Apply the transformation.
 		Transform3D transform = new Transform3D();
 		transform.lookAt(viewerEye, viewerCenter, viewerUp);
 		transform.invert(); // This is important...I think.
