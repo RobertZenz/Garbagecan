@@ -2,6 +2,10 @@
 	Asylum Gallery Script
 
 	Easy and absolute garbage.
+	
+
+	Public Domain
+	https://github.com/RobertZenz/Garbagecan/tree/master/AsylumImageGallery
 -->
 
 <html>
@@ -85,12 +89,25 @@
 			];
 
 			var $current = 0;
+			var $isBig = false;
 			var $passedInIndex = window.location.hash.replace("#", "");
 			if($passedInIndex != "") {
 				$current = $passedInIndex - 1;
 			}
 			
+			// I don't like surprises...
+			var checkCurrent = function() {
+				if($current < 0) {
+					$current = 0;
+				}
+				if($current >= $images.length) {
+					$current = $images.length - 1;
+				}
+			}
+			
 			var setImage = function() {
+				checkCurrent();
+				
 				$("#mainImage").attr("src", $previewPath + $images[$current] + $previewExtension);
 				$index = $current + 1;
 				$("#info").html($index + " / " + $images.length);
@@ -99,26 +116,26 @@
 			}
 
 			$(function(){
+				// Define stuff
 				$("#left").click(function() {
 					$current--;
-					if($current < 0) {
-						$current = 0;
-					}
-
 					setImage();
 				});
 				$("#right").click(function() {
 					$current++;
-					if($current >= $images.length) {
-						$current = $images.length - 1;
-					}
-
 					setImage();
 				});
 				$("#mainImage").click(function() {
-					$("#mainImage").attr("src", $fullPath + $images[$current] + $fullExtension);
+					checkCurrent();
+					if($isBig) {
+						$("#mainImage").attr("src", $previewPath + $images[$current] + $previewExtension);
+					} else {
+						$("#mainImage").attr("src", $fullPath + $images[$current] + $fullExtension);
+					}
+					$isBig = !$isBig;
 				});
 
+				// Do stuff
 				setImage();
 			});
 		</script>
