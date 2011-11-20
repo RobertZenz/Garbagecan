@@ -76,6 +76,17 @@ public class Main extends BasicGame {
 			resolution++;
 			generator.generate(seed, gc.getWidth(), resolution);
 		}
+		if (input.isKeyDown(Input.KEY_W)) {
+			seed++;
+			generator.generate(seed, gc.getWidth(), resolution);
+		}
+		if (input.isKeyDown(Input.KEY_S)) {
+			seed--;
+			if (seed < 0) {
+				seed = 0;
+			}
+			generator.generate(seed, gc.getWidth(), resolution);
+		}
 
 		if (input.isKeyPressed(Input.KEY_RETURN)) {
 			generator.generate(seed, gc.getWidth(), resolution);
@@ -93,6 +104,8 @@ public class Main extends BasicGame {
 		int x = 10;
 		int y = 15;
 		int height = 13;
+		grphcs.setColor(Color.green);
+		grphcs.drawString("Seed: "+ Long.toString(seed), x, y += height);
 		grphcs.setColor(Color.blue);
 		grphcs.drawString("F1 - None", x, y += height);
 		grphcs.drawString("F2 - Linear", x, y += height);
