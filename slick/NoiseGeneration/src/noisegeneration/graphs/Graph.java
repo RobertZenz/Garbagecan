@@ -16,23 +16,9 @@ import org.newdawn.slick.SlickException;
  *
  * @author robert
  */
-public class Graph implements Generator {
+public class Graph extends Generator {
 
-	protected List<Double> points = new ArrayList<Double>();
-
-	public void generate(long seed, int width, int resolution) throws SlickException {
-		points.clear();
-		Random random = new Random(seed);
-
-		for (int idx = 0; idx < width; idx += resolution) {
-			points.add(random.nextDouble());
-		}
-	}
-
-	protected int getStep(int width) {
-		return width / (points.size() - 1);
-	}
-
+	@Override
 	public void render(GameContainer gc, Graphics grphcs) throws SlickException {
 		int height = gc.getHeight();
 		int step = getStep(gc.getWidth());
