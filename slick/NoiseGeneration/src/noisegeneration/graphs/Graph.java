@@ -18,6 +18,15 @@ import org.newdawn.slick.SlickException;
  */
 public class Graph implements Generator {
 
+	protected boolean drawDots;
+
+	public boolean getDrawDots() {
+		return drawDots;
+	}
+
+	public void setDrawDots(boolean drawDots) {
+		this.drawDots = drawDots;
+	}
 	protected List<Double> points = new ArrayList<Double>();
 
 	public void generate(long seed, int width, int resolution) throws SlickException {
@@ -34,16 +43,18 @@ public class Graph implements Generator {
 	}
 
 	public void render(GameContainer gc, Graphics grphcs) throws SlickException {
-		int height = gc.getHeight();
-		int step = getStep(gc.getWidth());
+		if (drawDots) {
+			int height = gc.getHeight();
+			int step = getStep(gc.getWidth());
 
-		grphcs.setColor(Color.red);
-		for (int idx = 0; idx < points.size(); idx++) {
-			int position = height - (int) (height * points.get(idx));
-			int positionX = idx * step;
-			grphcs.drawOval(positionX - 5, position - 5, 11, 11);
-			grphcs.drawLine(positionX - 5, position, positionX + 4, position);
-			grphcs.drawLine(positionX, position - 5, positionX, position + 4);
+			grphcs.setColor(Color.red);
+			for (int idx = 0; idx < points.size(); idx++) {
+				int position = height - (int) (height * points.get(idx));
+				int positionX = idx * step;
+				grphcs.drawOval(positionX - 5, position - 5, 11, 11);
+				grphcs.drawLine(positionX - 5, position, positionX + 4, position);
+				grphcs.drawLine(positionX, position - 5, positionX, position + 4);
+			}
 		}
 	}
 }

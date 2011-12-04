@@ -67,6 +67,23 @@ public class Main extends BasicGame {
 			generator.generate(seed, gc.getWidth(), resolution);
 		}
 
+		if (input.isKeyPressed(Input.KEY_F5)) {
+			generator = new noisegeneration.maps.NoInterpolation();
+			generator.generate(seed, gc.getWidth(), resolution);
+		}
+		if (input.isKeyPressed(Input.KEY_F6)) {
+			generator = new noisegeneration.maps.Linear();
+			generator.generate(seed, gc.getWidth(), resolution);
+		}
+		if (input.isKeyPressed(Input.KEY_F7)) {
+			generator = new noisegeneration.maps.Cosine();
+			generator.generate(seed, gc.getWidth(), resolution);
+		}
+
+		if (input.isKeyPressed(Input.KEY_F12)) {
+			generator.setDrawDots(!generator.getDrawDots());
+		}
+
 		if (input.isKeyDown(Input.KEY_A)) {
 			resolution--;
 			generator.generate(seed, gc.getWidth(), resolution);
@@ -96,19 +113,30 @@ public class Main extends BasicGame {
 		}
 	}
 
-	public void render(GameContainer gc, Graphics grphcs) throws SlickException {
-		generator.render(gc, grphcs);
-
+	public void render(GameContainer container, Graphics g) throws SlickException {
+		generator.render(container, g);
 
 		int x = 10;
 		int y = 15;
 		int height = 13;
-		grphcs.setColor(Color.green);
-		grphcs.drawString("Seed: "+ Long.toString(seed), x, y += height);
-		grphcs.setColor(Color.blue);
-		grphcs.drawString("F1 - None", x, y += height);
-		grphcs.drawString("F2 - Linear", x, y += height);
-		grphcs.drawString("F3 - Cosine", x, y += height);
-		grphcs.drawString("F4 - Cubic", x, y += height);
+		g.setColor(Color.green);
+		g.drawString("Seed: " + Long.toString(seed), x, y += height);
+
+		g.setColor(Color.blue);
+		g.drawString("", x, y += height);
+		g.drawString("Graphs:", x, y += height);
+		g.drawString("F1 - None", x, y += height);
+		g.drawString("F2 - Linear", x, y += height);
+		g.drawString("F3 - Cosine", x, y += height);
+		g.drawString("F4 - Cubic", x, y += height);
+
+		g.drawString("", x, y += height);
+		g.drawString("Maps:", x, y += height);
+		g.drawString("F5 - None", x, y += height);
+		g.drawString("F6 - Linear", x, y += height);
+		g.drawString("F7 - Cosine", x, y += height);
+
+		g.drawString("", x, y += height);
+		g.drawString("F12 - Draw Dots", x, y += height);
 	}
 }
