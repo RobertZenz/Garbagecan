@@ -1,8 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Public Domain
  */
-
 package noisegeneration;
 
 import org.newdawn.slick.GameContainer;
@@ -15,8 +13,11 @@ import org.newdawn.slick.SlickException;
  */
 public interface Generator {
 
+	boolean getDrawDots();
+
+	void setDrawDots(boolean drawDots);
+
 	void generate(long seed, int width, int resolution) throws SlickException;
 
 	void render(GameContainer gc, Graphics grphcs) throws SlickException;
-
 }
