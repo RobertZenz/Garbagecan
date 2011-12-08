@@ -2,3 +2,14 @@ Game Of Life
 ------------
 
 A simple implementation of Conway's Game Of Life.
+
+Display:
+FPS		-	Frames Per Second
+Generation	-	Generation Counter
+Duration	-	Duration of computing the last generation
+
+Controls:
+Left Click	-	Set the cell to living
+Right Click	-	Set the cell to dead
+Return		-	Next Generation
+Space		-	Run Evolution
