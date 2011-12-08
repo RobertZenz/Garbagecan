@@ -21,6 +21,7 @@ public class Game extends BasicGame {
 	private int height;
 	private int cellSize;
 	private long generations;
+	private long duration;
 	
 	public Game(String title, int width, int height) {
 		super(title);
@@ -78,13 +79,15 @@ public class Game extends BasicGame {
 
 		g.setColor(Color.darkGray);
 		g.drawString("FPS: " + Integer.toString(container.getFPS()), 5, 5);
-		g.drawString("Generation: " + Long.toString(generations), 5, 25);
+		g.drawString("Generation: " + Long.toString(generations), 5, 20);
+		g.drawString("Duration: " + Long.toString(duration), 5, 40);
 	}
 
 	/**
 	 * Evolve into the next nextGeneration.
 	 */
 	private void doGeneration() {
+		long nextDuration = System.currentTimeMillis();
 		boolean[] nextGeneration = new boolean[cells.length];
 		
 		for (int x = 1; x < width - 1; x++) {
@@ -127,5 +130,6 @@ public class Game extends BasicGame {
 
 		cells = nextGeneration;
 		generations++;
+		duration = System.currentTimeMillis() - nextDuration;
 	}
 }
