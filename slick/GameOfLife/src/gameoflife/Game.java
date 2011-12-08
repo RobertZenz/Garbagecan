@@ -20,7 +20,8 @@ public class Game extends BasicGame {
 	private int width;
 	private int height;
 	private int cellSize;
-
+	private long generations;
+	
 	public Game(String title, int width, int height) {
 		super(title);
 
@@ -74,6 +75,10 @@ public class Game extends BasicGame {
 				}
 			}
 		}
+
+		g.setColor(Color.darkGray);
+		g.drawString("FPS: " + Integer.toString(container.getFPS()), 5, 5);
+		g.drawString("Generation: " + Long.toString(generations), 5, 25);
 	}
 
 	/**
@@ -121,5 +126,6 @@ public class Game extends BasicGame {
 		}
 
 		cells = nextGeneration;
+		generations++;
 	}
 }

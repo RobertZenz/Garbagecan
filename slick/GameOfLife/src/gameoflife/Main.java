@@ -19,7 +19,7 @@ public class Main {
 		try {
 			AppGameContainer app = new AppGameContainer(new Game("Game Of Life", 40, 30));
 			app.setDisplayMode(800, 600, false);
-			app.setShowFPS(true);
+			app.setShowFPS(false);
 			app.setTargetFrameRate(60);
 			app.start();
 		} catch (SlickException ex) {
