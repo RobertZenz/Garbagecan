@@ -49,8 +49,8 @@ public class Game extends BasicGame {
 			int x = input.getMouseX() / cellSize;
 			int y = input.getMouseY() / cellSize;
 
-			int idx = x * width + y;
-			if ((x * width + y) < cells.length
+			int idx = y * width + x;
+			if (idx < cells.length
 					&& x > 0 && x < width - 1
 					&& y > 0 && y < height - 1) {
 				cells[idx] = !cells[idx];
@@ -68,7 +68,7 @@ public class Game extends BasicGame {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				g.drawRect(x * cellSize, y * cellSize, cellSize, cellSize);
-				if (cells[x * width + y]) {
+				if (cells[y * width + x]) {
 					g.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
 				}
 			}
@@ -89,14 +89,14 @@ public class Game extends BasicGame {
 				for (int neighborX = x - 1; neighborX <= x + 1; neighborX++) {
 					for (int neighborY = y - 1; neighborY <= y + 1; neighborY++) {
 						if (neighborX != x || neighborY != y) {
-							if (cells[neighborX * width + neighborY]) {
+							if (cells[neighborY * width + neighborX]) {
 								neighbors++;
 							}
 						}
 					}
 				}
 
-				int idx = x * width + y;
+				int idx = y * width + x;
 
 				switch (neighbors) {
 					case 0:

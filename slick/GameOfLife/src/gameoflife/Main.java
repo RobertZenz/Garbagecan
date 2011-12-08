@@ -17,7 +17,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		try {
-			AppGameContainer app = new AppGameContainer(new Game("Game Of Life", 25, 25));
+			AppGameContainer app = new AppGameContainer(new Game("Game Of Life", 40, 30));
 			app.setDisplayMode(800, 600, false);
 			app.setShowFPS(true);
 			app.setTargetFrameRate(60);
