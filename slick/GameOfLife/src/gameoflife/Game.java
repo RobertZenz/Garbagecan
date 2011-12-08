@@ -45,7 +45,8 @@ public class Game extends BasicGame {
 			doGeneration();
 		}
 
-		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ||
+				input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
 			int x = input.getMouseX() / cellSize;
 			int y = input.getMouseY() / cellSize;
 
@@ -53,7 +54,7 @@ public class Game extends BasicGame {
 			if (idx < cells.length
 					&& x > 0 && x < width - 1
 					&& y > 0 && y < height - 1) {
-				cells[idx] = !cells[idx];
+				cells[idx] = input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON);
 			}
 		}
 
