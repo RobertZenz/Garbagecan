@@ -91,12 +91,15 @@ public class Game extends BasicGame {
 		}
 
 		if (showInfo) {
-			g.setColor(Color.darkGray);
-			g.drawString("FPS: " + container.getFPS(), 5, 5);
-			g.drawString("Generation: " + Long.toString(petriDish.getGeneration()), 5, 20);
-			g.drawString("Duration: " + Long.toString(petriDish.getDuration()), 5, 35);
-			g.drawString("F1 - Hide/Show this information", 5, 55);
-			g.drawString("F2 - Hide/Show grid", 5, 70);
+			int y = 5;
+
+			g.setColor(Color.blue);
+			g.drawString("FPS: " + container.getFPS(), 5, y);
+			g.drawString("Cells: " + Integer.toString(petriDish.getCells().length), 5, y += 15);
+			g.drawString("Generation: " + Long.toString(petriDish.getGeneration()), 5, y += 15);
+			g.drawString("Duration: " + Long.toString(petriDish.getDuration()), 5, y += 15);
+			g.drawString("F1 - Hide/Show this information", 5, y += 20);
+			g.drawString("F2 - Hide/Show grid", 5, y += 15);
 		}
 	}
 }
