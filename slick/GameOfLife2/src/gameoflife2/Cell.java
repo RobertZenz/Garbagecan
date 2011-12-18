@@ -39,7 +39,7 @@ public class Cell {
 		}
 	}
 
-	public void prepare() {
+	public void init() {
 		if (!isBorderCell) {
 			for (int neighborX = x - 1; neighborX <= x + 1; neighborX++) {
 				for (int neighborY = y - 1; neighborY <= y + 1; neighborY++) {

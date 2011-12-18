@@ -29,7 +29,7 @@ public class PetriDish {
 		}
 
 		for (Cell cell : cells) {
-			cell.prepare();
+			cell.init();
 		}
 	}
 
