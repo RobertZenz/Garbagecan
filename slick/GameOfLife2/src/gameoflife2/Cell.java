@@ -50,14 +50,14 @@ public class Cell {
 	}
 
 	public void startEvolution() {
-		nextValue = checkSurvival(value, countAliveNeighbors(neighbors));
+		nextValue = calcNextState();
 	}
 
 	public void finishEvolution() {
 		value = nextValue;
 	}
 
-	private static int countAliveNeighbors(Iterable<Cell> neighbors) {
+	private int countAliveNeighbors() {
 		int neighborsAlive = 0;
 
 		for (Cell neighbor : neighbors) {
@@ -69,14 +69,14 @@ public class Cell {
 		return neighborsAlive;
 	}
 
-	private static boolean checkSurvival(boolean isAlive, int neighborsAlive) {
-		switch (neighborsAlive) {
+	private boolean calcNextState() {
+		switch (countAliveNeighbors()) {
 			case 0:
 			case 1:
 				return false;
 
 			case 2:
-				return isAlive;
+				return value;
 
 			case 3:
 				return true;
