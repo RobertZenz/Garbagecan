@@ -4,3 +4,6 @@ Game Of Life 2
 Rewritten Game Of Life test. It's now abstracted into different classes.
 
 Controls are the same as in 1.
+
+For some further stuff, see the Code Review question:
+ http://codereview.stackexchange.com/questions/6664/game-of-life-rewritten-into-two-classes-petridish-and-cell
