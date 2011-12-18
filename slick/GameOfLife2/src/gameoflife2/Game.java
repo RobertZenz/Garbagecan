@@ -32,6 +32,8 @@ public class Game extends BasicGame {
 	public void init(GameContainer container) throws SlickException {
 		petriDish = new PetriDish(dishWidth, dishHeight);
 		cellSize = Math.min(container.getWidth() / dishWidth, container.getHeight() / dishHeight);
+
+		petriDish.init();
 	}
 
 	@Override

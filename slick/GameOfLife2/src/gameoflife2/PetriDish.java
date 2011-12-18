@@ -20,17 +20,6 @@ public class PetriDish {
 		this.height = height;
 
 		this.cells = new Cell[width * height];
-
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				cells[y * width + x] = new Cell(this, x, y,
-						x == 0 || y == 0 || x == width - 1 || y == height - 1);
-			}
-		}
-
-		for (Cell cell : cells) {
-			cell.init();
-		}
 	}
 
 	public Cell[] getCells() {
@@ -55,6 +44,19 @@ public class PetriDish {
 
 	public long getDuration() {
 		return duration;
+	}
+
+	public void init() {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				cells[y * width + x] = new Cell(this, x, y,
+						x == 0 || y == 0 || x == width - 1 || y == height - 1);
+			}
+		}
+
+		for (Cell cell : cells) {
+			cell.init();
+		}
 	}
 
 	public void doEvolution() {
