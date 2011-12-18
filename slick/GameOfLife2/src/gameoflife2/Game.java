@@ -20,6 +20,8 @@ public class Game extends BasicGame {
 	private int dishWidth;
 	private int dishHeight;
 	private int cellSize;
+	private boolean showInfo = true;
+	private boolean showGrid = true;
 
 	public Game(String title, int dishWidth, int dishHeight) {
 		super(title);
@@ -54,6 +56,13 @@ public class Game extends BasicGame {
 			petriDish.getCell(x, y).setValue(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON));
 		}
 
+		if (input.isKeyPressed(Input.KEY_F1)) {
+			showInfo = !showInfo;
+		}
+		if (input.isKeyPressed(Input.KEY_F2)) {
+			showGrid = !showGrid;
+		}
+
 		if (input.isKeyDown(Input.KEY_SPACE)) {
 			petriDish.doEvolution();
 		}
@@ -71,16 +80,23 @@ public class Game extends BasicGame {
 		g.setColor(Color.black);
 		for (int x = 0; x < petriDish.getWidth(); x++) {
 			for (int y = 0; y < petriDish.getHeight(); y++) {
-				g.drawRect(x * cellSize, y * cellSize, cellSize, cellSize);
+				if (showGrid) {
+					g.drawRect(x * cellSize, y * cellSize, cellSize, cellSize);
+				}
+
 				if (petriDish.getCell(x, y).getValue()) {
 					g.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
 				}
 			}
 		}
 
-		g.setColor(Color.darkGray);
-		g.drawString("FPS: " + container.getFPS(), 5, 5);
-		g.drawString("Generation: " + Long.toString(petriDish.getGeneration()), 5, 20);
-		g.drawString("Duration: " + Long.toString(petriDish.getDuration()), 5, 35);
+		if (showInfo) {
+			g.setColor(Color.darkGray);
+			g.drawString("FPS: " + container.getFPS(), 5, 5);
+			g.drawString("Generation: " + Long.toString(petriDish.getGeneration()), 5, 20);
+			g.drawString("Duration: " + Long.toString(petriDish.getDuration()), 5, 35);
+			g.drawString("F1 - Hide/Show this information", 5, 55);
+			g.drawString("F2 - Hide/Show grid", 5, 70);
+		}
 	}
 }
