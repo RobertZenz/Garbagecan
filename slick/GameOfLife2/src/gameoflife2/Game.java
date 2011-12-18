@@ -40,11 +40,11 @@ public class Game extends BasicGame {
 	public void update(GameContainer container, int delta) throws SlickException {
 		Input input = container.getInput();
 
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ||
-				input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
+		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)
+				|| input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
 			int x = input.getMouseX() / cellSize;
 			int y = input.getMouseY() / cellSize;
-			
+
 			petriDish.getCell(x, y).setValue(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON));
 		}
 

@@ -17,16 +17,12 @@ public class Cell {
 	private int y;
 	private boolean value;
 	private boolean nextValue;
-	private boolean isBorderCell;
-	private List<Cell> neighbors;
+	private List<Cell> neighbors = new ArrayList<Cell>();
 
-	public Cell(PetriDish parent, int x, int y, boolean isBorderCell) {
+	public Cell(PetriDish parent, int x, int y) {
 		this.parent = parent;
 		this.x = x;
 		this.y = y;
-
-		this.isBorderCell = isBorderCell;
-		this.neighbors = new ArrayList<Cell>();
 	}
 
 	public boolean getValue() {
@@ -34,18 +30,20 @@ public class Cell {
 	}
 
 	public void setValue(boolean value) {
-		if (!isBorderCell) {
-			this.value = value;
-		}
+		this.value = value;
 	}
 
 	public void init() {
-		if (!isBorderCell) {
-			for (int neighborX = x - 1; neighborX <= x + 1; neighborX++) {
-				for (int neighborY = y - 1; neighborY <= y + 1; neighborY++) {
-					if (neighborX != x || neighborY != y) {
-						neighbors.add(parent.getCell(neighborX, neighborY));
-					}
+		int minX = Math.max(x - 1, 0);
+		int maxX = Math.min(x + 1, parent.getWidth() - 1);
+		int minY = Math.max(y - 1, 0);
+		int maxY = Math.min(y + 1, parent.getHeight() - 1);
+
+		for (int neighborX = minX; neighborX <= maxX; neighborX++) {
+			for (int neighborY = minY; neighborY <= maxY; neighborY++) {
+				// Check if it is not this
+				if (neighborX != x || neighborY != y) {
+					neighbors.add(parent.getCell(neighborX, neighborY));
 				}
 			}
 		}
