@@ -45,6 +45,12 @@ public class Game extends BasicGame {
 			int x = input.getMouseX() / cellSize;
 			int y = input.getMouseY() / cellSize;
 
+			// Check bounds
+			x = Math.max(x, 0);
+			x = Math.min(x, petriDish.getWidth() - 1);
+			y = Math.max(y, 0);
+			y = Math.min(y, petriDish.getHeight() - 1);
+
 			petriDish.getCell(x, y).setValue(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON));
 		}
 
