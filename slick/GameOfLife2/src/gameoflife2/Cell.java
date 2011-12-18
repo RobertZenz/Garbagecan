@@ -20,6 +20,15 @@ public class Cell {
 	private boolean isBorderCell;
 	private List<Cell> neighbors;
 
+	public Cell(PetriDish parent, int x, int y, boolean isBorderCell) {
+		this.parent = parent;
+		this.x = x;
+		this.y = y;
+
+		this.isBorderCell = isBorderCell;
+		this.neighbors = new ArrayList<Cell>();
+	}
+
 	public boolean getValue() {
 		return value;
 	}
@@ -28,15 +37,6 @@ public class Cell {
 		if (!isBorderCell) {
 			this.value = value;
 		}
-	}
-
-	public Cell(PetriDish parent, int x, int y, boolean isBorderCell) {
-		this.parent = parent;
-		this.x = x;
-		this.y = y;
-
-		this.isBorderCell = isBorderCell;
-		this.neighbors = new ArrayList<Cell>();
 	}
 
 	public void prepare() {
