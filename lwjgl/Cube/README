@@ -1,0 +1,10 @@
+Cube
+----
+
+A simple cube which can be rotated.
+
+Left/Right/Up/Down - Rotate
+
+F1/F2 - Enable/Disable backface culling
+F3/F4 - Enable/Disable solid polygons
+F5/F6 - Enable/Disable lighting
