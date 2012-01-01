@@ -3,10 +3,12 @@
  */
 package cube;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.Point;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 
@@ -20,6 +22,7 @@ public class World {
 	private boolean closeRequested;
 	private Light light;
 	private Cube cube;
+	private Point lastMouseLocation;
 
 	public World(String title, int width, int height) throws LWJGLException {
 		Display.setDisplayMode(new DisplayMode(width, height));
@@ -57,6 +60,7 @@ public class World {
 
 			// Input
 			processKeyboard();
+			processMouse();
 
 			// Update
 			Display.update();
@@ -109,6 +113,21 @@ public class World {
 
 				}
 			}
+		}
+	}
+
+	public void processMouse() {
+		if (Mouse.isButtonDown(0)) {
+			Mouse.setGrabbed(true);
+			if (lastMouseLocation != null) {
+				cube.rotateX((Mouse.getX() - lastMouseLocation.getX()) * rotationSpeed);
+				cube.rotateY((lastMouseLocation.getY() - Mouse.getY()) * rotationSpeed);
+			}
+
+			lastMouseLocation = new Point(Mouse.getX(), Mouse.getY());
+		} else {
+			Mouse.setGrabbed(false);
+			lastMouseLocation = null;
 		}
 	}
 
