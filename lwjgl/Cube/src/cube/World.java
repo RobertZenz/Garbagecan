@@ -56,7 +56,7 @@ public class World {
 			cube.render();
 
 			// Input
-			checkInput();
+			processKeyboard();
 
 			// Update
 			Display.update();
@@ -65,7 +65,7 @@ public class World {
 		Display.destroy();
 	}
 
-	public void checkInput() {
+	public void processKeyboard() {
 		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
 			cube.rotateX(-rotationSpeed);
 		}
