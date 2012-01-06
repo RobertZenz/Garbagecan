@@ -14,6 +14,8 @@ public class Grid {
 	private float values[];
 	private int width;
 	private int depth;
+	private float minValue;
+	private float maxValue;
 
 	public Grid(int width, int depth) {
 		this.width = width;
@@ -23,6 +25,9 @@ public class Grid {
 	}
 
 	public void generate(Generator generator) {
+		minValue = generator.getMinValue();
+		maxValue = generator.getMaxValue();
+
 		for (int idxX = 0; idxX < width; idxX++) {
 			for (int idxZ = 0; idxZ < depth; idxZ++) {
 				values[idxZ * width + idxX] = generator.getValue(idxX, idxZ);
@@ -46,14 +51,18 @@ public class Grid {
 		float x = idxX - width / 2 + 0.5f;
 		float z = idxZ - depth / 2 + 0.5f;
 
-		
-		glColor3f(0, 1, 1);
+		float colorValue = values[idxZ * width + idxX] / maxValue + minValue;
+		glColor3f(0, colorValue, colorValue);
 
 		glBegin(GL_TRIANGLES);
 		glVertex3f(x, values[idxZ * width + idxX], z);
 		glVertex3f(x, values[(idxZ + 1) * width + idxX], z + 1f);
 		glVertex3f(x + 1f, values[(idxZ + 1) * width + (idxX + 1)], z + 1f);
 		glEnd();
+
+
+		colorValue = values[(idxZ + 1) * width + (idxX + 1)] / maxValue + minValue;
+		glColor3f(0, colorValue, colorValue);
 
 		glBegin(GL_TRIANGLES);
 		glVertex3f(x + 1f, values[(idxZ + 1) * width + (idxX + 1)], z + 1f);
