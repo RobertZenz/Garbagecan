@@ -35,7 +35,6 @@ public class Grid {
 	}
 
 	public void render() {
-		glColor3f(0, 1, 1);
 		for (int idxX = 0; idxX < width - 1; idxX++) {
 			for (int idxZ = 0; idxZ < depth - 1; idxZ++) {
 				renderQuad(idxX, idxZ);
@@ -46,6 +45,9 @@ public class Grid {
 	private void renderQuad(int idxX, int idxZ) {
 		float x = idxX - width / 2 + 0.5f;
 		float z = idxZ - depth / 2 + 0.5f;
+
+		
+		glColor3f(0, 1, 1);
 
 		glBegin(GL_TRIANGLES);
 		glVertex3f(x, values[idxZ * width + idxX], z);

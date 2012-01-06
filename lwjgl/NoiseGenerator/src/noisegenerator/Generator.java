@@ -9,7 +9,11 @@ package noisegenerator;
  */
 public interface Generator {
 
-	public void init(long seed, float minValue, float maxValue);
+	public float getMinValue();
+
+	public float getMaxValue();
 
 	public float getValue(int x, int y);
+
+	public void init(long seed, float minValue, float maxValue);
 }

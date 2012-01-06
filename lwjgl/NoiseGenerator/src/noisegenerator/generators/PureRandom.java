@@ -16,6 +16,14 @@ public class PureRandom implements Generator {
 	private float minValue;
 	private float maxValue;
 
+	public float getMaxValue() {
+		return maxValue;
+	}
+
+	public float getMinValue() {
+		return minValue;
+	}
+
 	public float getValue(int x, int y) {
 		return random.nextFloat() * (maxValue - minValue) + minValue;
 	}
