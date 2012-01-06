@@ -3,7 +3,7 @@
  */
 package noisegenerator;
 
-import noisegenerator.modifiers.SineWave;
+import noisegenerator.modifiers.DoubleWave;
 import noisegenerator.generators.PureRandom;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.input.Keyboard;
@@ -39,7 +39,7 @@ public class World {
 		generator.init(0, 0, 5);
 		grid.generate(generator);
 
-		modifier = new SineWave(3f);
+		modifier = new DoubleWave(3f);
 	}
 
 	public void run() {
@@ -51,8 +51,8 @@ public class World {
 		resetEye();
 
 		glEnable(GL_COLOR_MATERIAL);
-		glEnable(GL_CULL_FACE);
-
+		//glEnable(GL_CULL_FACE);
+		
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glShadeModel(GL_SMOOTH);
 		glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
