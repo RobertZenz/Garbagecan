@@ -5,7 +5,6 @@ package bugandtreat;
 
 import java.util.Random;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -15,7 +14,7 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class Bug {
 
-	private Color color = Color.red;
+	private Color color;
 	private Random random;
 	private World world;
 	private float x;
@@ -26,9 +25,10 @@ public class Bug {
 	private Vector2f movement = new Vector2f(0, 0);
 	private Treat targetTreat;
 
-	public Bug(long seed, World world) {
+	public Bug(long seed, World world, Color color) {
 		this.random = new Random(seed);
 		this.world = world;
+		this.color = color;
 	}
 
 	public Vector2f getMovement() {
@@ -65,7 +65,7 @@ public class Bug {
 
 	public void update() {
 		float distanceToTreat = Float.MAX_VALUE;
-		if (targetTreat != null) {
+		if (targetTreat != null && world.treatStillExists(targetTreat)) {
 			movement.set(targetTreat.getX() - x, targetTreat.getY() - y);
 			distanceToTreat = (float) Math.sqrt(Math.pow(Math.abs(movement.getX()), 2) + Math.pow(Math.abs(movement.getY()), 2));
 
@@ -76,6 +76,7 @@ public class Bug {
 				size += growth;
 			}
 		} else {
+			targetTreat = null;
 			if (random.nextFloat() > 0.99f) {
 				movement.set(random.nextFloat() - 0.5f, random.nextFloat() - 0.5f);
 			}

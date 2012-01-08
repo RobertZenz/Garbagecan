@@ -20,7 +20,7 @@ public class World extends BasicGame {
 
 	private int width;
 	private int height;
-	private Bug bug;
+	private List<Bug> bugs = new ArrayList<Bug>();
 	private List<Treat> treats = new ArrayList<Treat>();
 
 	public World(String title) {
@@ -44,12 +44,17 @@ public class World extends BasicGame {
 		width = container.getWidth();
 		height = container.getHeight();
 
-		bug = new Bug(0, this);
+		bugs.add(new Bug(0, this, Color.red));
+		bugs.add(new Bug(1, this, Color.blue));
+		bugs.add(new Bug(2, this, Color.pink));
+		bugs.add(new Bug(3, this, Color.orange));
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		bug.update();
+		for (Bug bug : bugs) {
+			bug.update();
+		}
 
 		Input input = container.getInput();
 
@@ -74,7 +79,9 @@ public class World extends BasicGame {
 			treat.render(g);
 		}
 
-		bug.render(g);
+		for (Bug bug : bugs) {
+			bug.render(g);
+		}
 
 		// Draw debug strings
 		int x = 5;
@@ -83,11 +90,15 @@ public class World extends BasicGame {
 
 		g.setColor(Color.darkGray);
 		g.drawString("Treats " + Integer.toString(treats.size()), x, y += textHeight);
-		g.drawString("Bug at " + Float.toString(bug.getX()) + " " + Float.toString(bug.getY()), x, y += textHeight);
-		g.drawString("Bug moves " + Float.toString(bug.getMovement().getX()) + " " + Float.toString(bug.getMovement().getY()), x, y += textHeight);
-		if (bug.getTargetTreat() != null) {
-			g.drawString("Bug target " + Float.toString(bug.getTargetTreat().getX()) + " " + Float.toString(bug.getTargetTreat().getY()), x, y += textHeight);
+		g.drawString("Bug at " + Float.toString(bugs.get(0).getX()) + " " + Float.toString(bugs.get(0).getY()), x, y += textHeight);
+		g.drawString("Bug moves " + Float.toString(bugs.get(0).getMovement().getX()) + " " + Float.toString(bugs.get(0).getMovement().getY()), x, y += textHeight);
+		if (bugs.get(0).getTargetTreat() != null) {
+			g.drawString("Bug target " + Float.toString(bugs.get(0).getTargetTreat().getX()) + " " + Float.toString(bugs.get(0).getTargetTreat().getY()), x, y += textHeight);
 		}
-		g.drawString("Bug size " + Float.toString(bug.getSize()), x, y += textHeight);
+		g.drawString("Bug size " + Float.toString(bugs.get(0).getSize()), x, y += textHeight);
+	}
+
+	public boolean treatStillExists(Treat treat) {
+		return treats.contains(treat);
 	}
 }
