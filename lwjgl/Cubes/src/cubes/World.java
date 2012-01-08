@@ -25,7 +25,7 @@ public class World {
 		Display.setTitle(title);
 		Display.create();
 
-		viewer = new Viewer(100, 100, 100, 75, 75, 75);
+		viewer = new Viewer(100, 100, 100, -1, -1, -1);
 	}
 
 	public void run() throws LWJGLException {
@@ -47,6 +47,8 @@ public class World {
 		Light.init(1000, 1000, 500, 1, 1, 1);
 
 		while (!Display.isCloseRequested() && !closeRequested) {
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 			processKeyboard();
 			processMouse();
 
@@ -63,6 +65,10 @@ public class World {
 
 	private void processKeyboard() {
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+			viewer.moveForward();
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+			viewer.moveBackward();
 		}
 
 		while (Keyboard.next()) {

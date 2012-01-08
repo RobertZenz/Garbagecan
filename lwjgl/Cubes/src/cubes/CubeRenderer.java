@@ -11,8 +11,6 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class CubeRenderer {
 
-	public static float MOVE_SPEED = 0.3f;
-
 	private CubeRenderer() {
 	}
 
@@ -24,52 +22,52 @@ public class CubeRenderer {
 		// Sides
 		glNormal3f(0, 0, -1);
 		glBegin(GL_QUADS);
-		glVertex3f(x-half, y-half, z-half);
-		glVertex3f(x+half, y-half, z-half);
-		glVertex3f(x+half, y+half, z-half);
-		glVertex3f(x-half, y+half, z-half);
+		glVertex3f(x - half, y - half, z - half);
+		glVertex3f(x - half, y - half, z + half);
+		glVertex3f(x - half, y + half, z + half);
+		glVertex3f(x - half, y + half, z - half);
 		glEnd();
 
 		glNormal3f(1, 0, 0);
 		glBegin(GL_QUADS);
-		glVertex3f(x+half, y-half, z-half);
-		glVertex3f(x+half, y-half, z+half);
-		glVertex3f(x+half, y+half, z+half);
-		glVertex3f(x+half, y+half, z-half);
+		glVertex3f(x + half, y + half, z - half);
+		glVertex3f(x + half, y + half, z + half);
+		glVertex3f(x + half, y - half, z + half);
+		glVertex3f(x + half, y - half, z - half);
 		glEnd();
 
 		glNormal3f(0, 0, 1);
 		glBegin(GL_QUADS);
-		glVertex3f(x-half, y+half, z+half);
-		glVertex3f(x+half, y+half, z+half);
-		glVertex3f(x+half, y-half, z+half);
-		glVertex3f(x-half, y-half, z+half);
+		glVertex3f(x - half, y + half, z + half);
+		glVertex3f(x + half, y + half, z + half);
+		glVertex3f(x + half, y - half, z + half);
+		glVertex3f(x - half, y - half, z + half);
 		glEnd();
 
 		glNormal3f(-1, 0, 0);
 		glBegin(GL_QUADS);
-		glVertex3f(x-half, y-half, z+half);
-		glVertex3f(x-half, y-half, z-half);
-		glVertex3f(x-half, y+half, z-half);
-		glVertex3f(x-half, y+half, z+half);
+		glVertex3f(x - half, y - half, z + half);
+		glVertex3f(x - half, y - half, z - half);
+		glVertex3f(x - half, y + half, z - half);
+		glVertex3f(x - half, y + half, z + half);
 		glEnd();
 
 		// Bottom
 		glNormal3f(0, -1, 0);
 		glBegin(GL_QUADS);
-		glVertex3f(x-half, y-half, z+half);
-		glVertex3f(x+half, y-half, z+half);
-		glVertex3f(x+half, y-half, z-half);
-		glVertex3f(x-half, y-half, z-half);
+		glVertex3f(x - half, y - half, z - half);
+		glVertex3f(x + half, y - half, z - half);
+		glVertex3f(x + half, y - half, z + half);
+		glVertex3f(x - half, y - half, z + half);
 		glEnd();
 
 		// Top
 		glNormal3f(0, 1, 0);
 		glBegin(GL_QUADS);
-		glVertex3f(x-half, y+half, z+half);
-		glVertex3f(x+half, y+half, z+half);
-		glVertex3f(x+half, y+half, z-half);
-		glVertex3f(x-half, y+half, z-half);
+		glVertex3f(x - half, y + half, z - half);
+		glVertex3f(x - half, y + half, z + half);
+		glVertex3f(x + half, y + half, z + half);
+		glVertex3f(x + half, y + half, z - half);
 		glEnd();
 	}
 }

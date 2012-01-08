@@ -5,6 +5,7 @@ package cubes;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
@@ -12,50 +13,40 @@ import org.lwjgl.util.glu.GLU;
  */
 public class Viewer {
 
+	public static float MOVE_SPEED = 0.5f;
 	private float eyeX;
 	private float eyeY;
 	private float eyeZ;
-	private float targetX;
-	private float targetY;
-	private float targetZ;
+	private Vector3f lookAt;
 
 	public Viewer(float eyeX, float eyeY, float eyeZ, float targetX, float targetY, float targetZ) {
 		this.eyeX = eyeX;
 		this.eyeY = eyeY;
 		this.eyeZ = eyeZ;
-		this.targetX = targetX;
-		this.targetY = targetY;
-		this.targetZ = targetZ;
+
+		this.lookAt = new Vector3f(targetX, targetY, targetZ);
 	}
 
 	public void moveEye(float modX, float modY, float modZ) {
 		eyeX += modX;
 		eyeY += modY;
 		eyeZ += modZ;
-
-		moveTarget(modX, modY, modZ);
 	}
 
-	public void moveTarget(float modX, float modY, float modZ) {
-		targetX += modX;
-		targetY += modY;
-		targetZ += modZ;
+	public void moveBackward() {
+		eyeX -= lookAt.getX() * MOVE_SPEED;
+		eyeY -= lookAt.getY() * MOVE_SPEED;
+		eyeZ -= lookAt.getZ() * MOVE_SPEED;
+	}
+
+	public void moveForward() {
+		eyeX += lookAt.getX() * MOVE_SPEED;
+		eyeY += lookAt.getY() * MOVE_SPEED;
+		eyeZ += lookAt.getZ() * MOVE_SPEED;
 	}
 
 	public void update() {
 		GL11.glLoadIdentity();
-		GLU.gluLookAt(eyeX, eyeY, eyeZ, targetX, targetY, targetZ, 0, 1, 0);
-	}
-
-	public void setEye(float x, float y, float z) {
-		eyeX = x;
-		eyeY = y;
-		eyeZ = z;
-	}
-
-	public void setTarget(float x, float y, float z) {
-		targetX = x;
-		targetY = y;
-		targetZ = z;
+		GLU.gluLookAt(eyeX, eyeY, eyeZ, eyeX + lookAt.getX(), eyeY + lookAt.getY(), eyeZ + lookAt.getZ(), 0, 1, 0);
 	}
 }
