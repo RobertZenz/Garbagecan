@@ -91,12 +91,6 @@ public class World extends BasicGame {
 
 		g.setColor(Color.darkGray);
 		g.drawString("Treats " + Integer.toString(treats.size()), x, y += textHeight);
-		g.drawString("Bug at " + Float.toString(bugs.get(0).getX()) + " " + Float.toString(bugs.get(0).getY()), x, y += textHeight);
-		g.drawString("Bug moves " + Float.toString(bugs.get(0).getMovement().getX()) + " " + Float.toString(bugs.get(0).getMovement().getY()), x, y += textHeight);
-		if (bugs.get(0).getTargetTreat() != null) {
-			g.drawString("Bug target " + Float.toString(bugs.get(0).getTargetTreat().getX()) + " " + Float.toString(bugs.get(0).getTargetTreat().getY()), x, y += textHeight);
-		}
-		g.drawString("Bug size " + Float.toString(bugs.get(0).getSize()), x, y += textHeight);
 	}
 
 	public boolean treatStillExists(Treat treat) {
