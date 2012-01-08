@@ -44,10 +44,11 @@ public class World extends BasicGame {
 		width = container.getWidth();
 		height = container.getHeight();
 
-		bugs.add(new Bug(0, this, Color.red));
-		bugs.add(new Bug(1, this, Color.blue));
-		bugs.add(new Bug(2, this, Color.pink));
-		bugs.add(new Bug(3, this, Color.orange));
+		bugs.add(new Bug(0, this, Color.red, 75));
+		bugs.add(new Bug(1, this, Color.blue, 100));
+		bugs.add(new Bug(2, this, Color.pink, 25));
+		bugs.add(new Bug(3, this, Color.orange, 85));
+		bugs.add(new Bug(4, this, Color.cyan, 45));
 	}
 
 	@Override

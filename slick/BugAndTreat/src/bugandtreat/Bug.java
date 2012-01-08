@@ -22,13 +22,18 @@ public class Bug {
 	private float size = 10;
 	private float growth = 0.3f;
 	private float speed = 1f;
+	private float viewDistance = 150;
 	private Vector2f movement = new Vector2f(0, 0);
 	private Treat targetTreat;
 
-	public Bug(long seed, World world, Color color) {
+	public Bug(long seed, World world, Color color, float viewDistance) {
 		this.random = new Random(seed);
 		this.world = world;
 		this.color = color;
+		this.viewDistance = viewDistance;
+
+		this.x = random.nextInt(world.getWidth());
+		this.y = random.nextInt(world.getHeight());
 	}
 
 	public Vector2f getMovement() {
@@ -54,6 +59,11 @@ public class Bug {
 	public void render(Graphics g) {
 		g.setColor(color);
 		g.fillOval(x - size / 2, y - size / 2, size, size);
+
+		int arcPart = 360 / 20;
+		for (int arc = 0; arc <= 360; arc += arcPart) {
+			g.drawArc(x - viewDistance, y - viewDistance, viewDistance*2, viewDistance*2, arc, arc + arcPart/2);
+		}
 
 		if (size > 100) {
 			g.setColor(Color.black);
@@ -86,7 +96,7 @@ public class Bug {
 		for (Treat treat : world.getTreats()) {
 			Vector2f newMovement = new Vector2f(treat.getX() - x, treat.getY() - y);
 			float distance = (float) Math.sqrt(Math.pow(Math.abs(newMovement.getX()), 2) + Math.pow(Math.abs(newMovement.getY()), 2));
-			if (distance < distanceToTreat) {
+			if (distance < viewDistance && distance < distanceToTreat) {
 				targetTreat = treat;
 				movement = newMovement;
 				distanceToTreat = distance;
