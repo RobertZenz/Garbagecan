@@ -60,6 +60,10 @@ public class Bug {
 		g.setColor(color);
 		g.fillOval(x - size / 2, y - size / 2, size, size);
 
+		if(targetTreat != null) {
+			g.drawLine(x, y, targetTreat.getX(), targetTreat.getY());
+		}
+
 		int arcPart = 360 / 20;
 		for (int arc = 0; arc <= 360; arc += arcPart) {
 			g.drawArc(x - viewDistance, y - viewDistance, viewDistance*2, viewDistance*2, arc, arc + arcPart/2);
