@@ -29,7 +29,7 @@ public class World {
 
 		viewer = new Viewer(-100, -100, -100, 1, 1, 1);
 
-		packet = new cubes.packets.RandomCubes(0);
+		packet = new cubes.packets.RandomSizedCubes(0);
 	}
 
 	public void run() throws LWJGLException {
