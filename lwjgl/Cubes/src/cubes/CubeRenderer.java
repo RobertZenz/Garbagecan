@@ -22,10 +22,10 @@ public class CubeRenderer {
 		// Sides
 		glNormal3f(0, 0, -1);
 		glBegin(GL_QUADS);
+		glVertex3f(x + half, y - half, z - half);
 		glVertex3f(x - half, y - half, z - half);
-		glVertex3f(x - half, y - half, z + half);
-		glVertex3f(x - half, y + half, z + half);
 		glVertex3f(x - half, y + half, z - half);
+		glVertex3f(x + half, y + half, z - half);
 		glEnd();
 
 		glNormal3f(1, 0, 0);
@@ -38,18 +38,18 @@ public class CubeRenderer {
 
 		glNormal3f(0, 0, 1);
 		glBegin(GL_QUADS);
-		glVertex3f(x - half, y + half, z + half);
 		glVertex3f(x + half, y + half, z + half);
-		glVertex3f(x + half, y - half, z + half);
+		glVertex3f(x - half, y + half, z + half);
 		glVertex3f(x - half, y - half, z + half);
+		glVertex3f(x + half, y - half, z + half);
 		glEnd();
 
 		glNormal3f(-1, 0, 0);
 		glBegin(GL_QUADS);
-		glVertex3f(x - half, y - half, z + half);
 		glVertex3f(x - half, y - half, z - half);
-		glVertex3f(x - half, y + half, z - half);
+		glVertex3f(x - half, y - half, z + half);
 		glVertex3f(x - half, y + half, z + half);
+		glVertex3f(x - half, y + half, z - half);
 		glEnd();
 
 		// Bottom
