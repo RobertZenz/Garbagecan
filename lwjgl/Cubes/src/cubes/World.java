@@ -36,17 +36,19 @@ public class World {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 
-		gluPerspective(45, Display.getDisplayMode().getWidth() / (float) Display.getDisplayMode().getHeight(), 0, 1000);
+		gluPerspective(45, Display.getDisplayMode().getWidth() / (float) Display.getDisplayMode().getHeight(), 0.1f, 5000);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_LIGHTING);
-
+		glEnable(GL_DEPTH_TEST);
+		
 		glShadeModel(GL_SMOOTH);
 		glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		
 		// Light
 		Light.init(1000, 1000, 500, 1, 1, 1);
 
