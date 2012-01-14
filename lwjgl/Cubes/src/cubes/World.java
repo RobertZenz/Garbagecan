@@ -27,9 +27,9 @@ public class World {
 		Display.setTitle(title);
 		Display.create();
 
-		viewer = new Viewer(100, 100, 100, -1, -1, -1);
+		viewer = new Viewer(-100, -100, -100, 1, 1, 1);
 
-		packet = new cubes.packets.SingleCube();
+		packet = new cubes.packets.RandomCubes(0);
 	}
 
 	public void run() throws LWJGLException {
