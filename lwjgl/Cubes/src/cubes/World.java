@@ -56,7 +56,7 @@ public class World {
 			viewer.update();
 
 			AxisGridRenderer.render();
-			CubeRenderer.render(25, 25, 25, 50);
+			CubeRenderer.render(0, 0, 0, 50);
 
 			Display.update();
 		}
