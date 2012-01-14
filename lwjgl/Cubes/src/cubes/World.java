@@ -3,6 +3,7 @@
  */
 package cubes;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -54,8 +55,8 @@ public class World {
 
 			viewer.update();
 
-			AxisRenderer.render();
-			CubeRenderer.render(0, 0, 0, 50);
+			AxisGridRenderer.render();
+			CubeRenderer.render(25, 25, 25, 50);
 
 			Display.update();
 		}
@@ -70,6 +71,12 @@ public class World {
 		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			viewer.moveBackward();
 		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+			viewer.moveLeft();
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+			viewer.moveRight();
+		}
 
 		while (Keyboard.next()) {
 			if (Keyboard.getEventKeyState()) {
@@ -81,5 +88,32 @@ public class World {
 	}
 
 	private void processMouse() {
+		if (Mouse.isGrabbed()) {
+			int dx = Mouse.getDX();
+			if (dx > 0) {
+				viewer.lookRight();
+			} else if (dx < 0) {
+				viewer.lookLeft();
+			}
+
+			int dy = Mouse.getDY();
+			if (dy > 0) {
+				viewer.lookUp();
+			} else if (dy < 0) {
+				viewer.lookDown();
+			}
+		}
+
+		while (Mouse.next()) {
+			if (Mouse.getEventButtonState()) {
+				if (Mouse.getEventButton() == 0) {
+					Mouse.setGrabbed(!Mouse.isGrabbed());
+
+					// Reset the coordinates
+					Mouse.getDX();
+					Mouse.getDY();
+				}
+			}
+		}
 	}
 }

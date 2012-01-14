@@ -13,6 +13,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class Viewer {
 
+	public static float LOOK_SPEED = 0.035f;
 	public static float MOVE_SPEED = 0.5f;
 	private float eyeX;
 	private float eyeY;
@@ -27,10 +28,24 @@ public class Viewer {
 		this.lookAt = new Vector3f(targetX, targetY, targetZ);
 	}
 
-	public void moveEye(float modX, float modY, float modZ) {
-		eyeX += modX;
-		eyeY += modY;
-		eyeZ += modZ;
+	public void lookDown() {
+		lookAt.y -= LOOK_SPEED;
+	}
+
+	public void lookLeft() {
+		float newX = (float) (lookAt.x * Math.cos(-LOOK_SPEED) - lookAt.z * Math.sin(-LOOK_SPEED));
+		lookAt.z = (float) (lookAt.x * Math.sin(-LOOK_SPEED) + lookAt.z * Math.cos(-LOOK_SPEED));
+		lookAt.x = newX;
+	}
+
+	public void lookRight() {
+		float newX = (float) (lookAt.x * Math.cos(LOOK_SPEED) - lookAt.z * Math.sin(LOOK_SPEED));
+		lookAt.z = (float) (lookAt.x * Math.sin(LOOK_SPEED) + lookAt.z * Math.cos(LOOK_SPEED));
+		lookAt.x = newX;
+	}
+
+	public void lookUp() {
+		lookAt.y += LOOK_SPEED;
 	}
 
 	public void moveBackward() {
@@ -43,6 +58,16 @@ public class Viewer {
 		eyeX += lookAt.getX() * MOVE_SPEED;
 		eyeY += lookAt.getY() * MOVE_SPEED;
 		eyeZ += lookAt.getZ() * MOVE_SPEED;
+	}
+
+	public void moveLeft() {
+		eyeX += lookAt.getZ() * MOVE_SPEED;
+		eyeZ -= lookAt.getX() * MOVE_SPEED;
+	}
+
+	public void moveRight() {
+		eyeX -= lookAt.getZ() * MOVE_SPEED;
+		eyeZ += lookAt.getX() * MOVE_SPEED;
 	}
 
 	public void update() {
