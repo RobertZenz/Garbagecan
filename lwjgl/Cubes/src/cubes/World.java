@@ -20,6 +20,7 @@ public class World {
 
 	private boolean closeRequested;
 	private Viewer viewer;
+	private Packet packet;
 
 	public World(String title, int width, int height) throws LWJGLException {
 		Display.setDisplayMode(new DisplayMode(width, height));
@@ -27,6 +28,8 @@ public class World {
 		Display.create();
 
 		viewer = new Viewer(100, 100, 100, -1, -1, -1);
+
+		packet = new cubes.packets.SingleCube();
 	}
 
 	public void run() throws LWJGLException {
@@ -56,7 +59,8 @@ public class World {
 			viewer.update();
 
 			AxisGridRenderer.render();
-			CubeRenderer.render(0, 0, 0, 50);
+
+			packet.render();
 
 			Display.update();
 		}
