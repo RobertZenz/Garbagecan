@@ -4,7 +4,6 @@
  */
 package mufugenerator;
 
-import il.ac.idc.jdt.Circle;
 import il.ac.idc.jdt.DelaunayTriangulation;
 import il.ac.idc.jdt.Point;
 import il.ac.idc.jdt.Triangle;
@@ -33,6 +32,7 @@ public class World extends BasicGame {
 	Polygon[] polygons;
 	List<Triangle> triangles;
 	List<Point> centers;
+	List<Triangle> smallTriangles;
 
 	public World(String title) {
 		super(title);
@@ -54,6 +54,15 @@ public class World extends BasicGame {
 //				centers.add(circle.center());
 //			}
 //		}
+
+		smallTriangles = new ArrayList<Triangle>();
+		for (Triangle triangle : triangles) {
+			if (triangle.getA() != null && triangle.getB() != null && triangle.getC() != null) {
+				if (triangle.getCircumCircle().radius() < 2000) {
+					smallTriangles.add(triangle);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -67,52 +76,91 @@ public class World extends BasicGame {
 //		for (Point point : points) {
 //			g.drawOval((float) (point.getX() - maxDistance), (float) (point.getY() - maxDistance), maxDistance * 2, maxDistance * 2);
 //		}
+//
+//		g.setColor(Color.red);
+//		for (Point point : points) {
+//			g.drawOval((float) (point.getX() - 1), (float) (point.getY() - 1), 3, 3);
+//		}
+//
+//		if (lines != null) {
+//			g.setColor(Color.green);
+//			for (Line line : lines) {
+//				g.drawLine(line.getX1(), line.getY1(), line.getX2(), line.getY2());
+//			}
+//		}
+//
+//		if (polygons != null) {
+//			g.setColor(Color.cyan);
+//			for (Polygon polygon : polygons) {
+//				g.draw(polygon);
+//			}
+//		}
 
-		g.setColor(Color.red);
-		for (Point point : points) {
-			g.drawOval((float) (point.getX() - 1), (float) (point.getY() - 1), 3, 3);
-		}
+//		if (triangles != null) {
+//			g.setColor(Color.blue);
+//			for (Triangle triangle : triangles) {
+//				if (triangle.getA() != null && triangle.getB() != null && triangle.getC() != null) {
+//					g.drawLine((float) triangle.getA().getX(), (float) triangle.getA().getY(), (float) triangle.getB().getX(), (float) triangle.getB().getY());
+//					g.drawLine((float) triangle.getB().getX(), (float) triangle.getB().getY(), (float) triangle.getC().getX(), (float) triangle.getC().getY());
+//					g.drawLine((float) triangle.getC().getX(), (float) triangle.getC().getY(), (float) triangle.getA().getX(), (float) triangle.getA().getY());
+//				}
+//			}
+//			g.setColor(Color.green);
+//			for (Triangle triangle : triangles) {
+//				if (triangle.getA() != null && triangle.getB() != null && triangle.getC() != null) {
+//					if (triangle.getCircumCircle().radius() <= maxCircleRadius) {
+//						g.drawLine((float) triangle.getA().getX(), (float) triangle.getA().getY(), (float) triangle.getB().getX(), (float) triangle.getB().getY());
+//						g.drawLine((float) triangle.getB().getX(), (float) triangle.getB().getY(), (float) triangle.getC().getX(), (float) triangle.getC().getY());
+//						g.drawLine((float) triangle.getC().getX(), (float) triangle.getC().getY(), (float) triangle.getA().getX(), (float) triangle.getA().getY());
+//					}
+//				}
+//			}
+//		}
+//
+//		if (centers != null) {
+//			g.setColor(Color.darkGray);
+//			for (Point point : centers) {
+//				g.drawOval((float) (point.getX() - 1), (float) (point.getY() - 1), 3, 3);
+//			}
+//		}
 
-		if (lines != null) {
+//		if (smallTriangles != null) {
+//			g.setColor(Color.blue);
+//			for (Triangle triangle : smallTriangles) {
+//				drawTriangle(g, triangle);
+//			}
+//		}
+
+		if (smallTriangles != null) {
+			g.setBackground(Color.blue);
 			g.setColor(Color.green);
-			for (Line line : lines) {
-				g.drawLine(line.getX1(), line.getY1(), line.getX2(), line.getY2());
+			for (Triangle triangle : smallTriangles) {
+				fillTriangle(g, triangle);
+			}
+			g.setColor(Color.red);
+			for (Triangle triangle : smallTriangles) {
+				drawTriangle(g, triangle);
 			}
 		}
+	}
 
-		if (polygons != null) {
-			g.setColor(Color.cyan);
-			for (Polygon polygon : polygons) {
-				g.draw(polygon);
-			}
-		}
+	private static void drawTriangle(Graphics g, Triangle triangle) {
+		g.drawLine((float) triangle.getA().getX(), (float) triangle.getA().getY(), (float) triangle.getB().getX(), (float) triangle.getB().getY());
+		g.drawLine((float) triangle.getB().getX(), (float) triangle.getB().getY(), (float) triangle.getC().getX(), (float) triangle.getC().getY());
+		g.drawLine((float) triangle.getC().getX(), (float) triangle.getC().getY(), (float) triangle.getA().getX(), (float) triangle.getA().getY());
+	}
 
-		if (triangles != null) {
-			g.setColor(Color.blue);
-			for (Triangle triangle : triangles) {
-				if (triangle.getA() != null && triangle.getB() != null && triangle.getC() != null) {
-					g.drawLine((float) triangle.getA().getX(), (float) triangle.getA().getY(), (float) triangle.getB().getX(), (float) triangle.getB().getY());
-					g.drawLine((float) triangle.getB().getX(), (float) triangle.getB().getY(), (float) triangle.getC().getX(), (float) triangle.getC().getY());
-					g.drawLine((float) triangle.getC().getX(), (float) triangle.getC().getY(), (float) triangle.getA().getX(), (float) triangle.getA().getY());
-				}
-			}
-			g.setColor(Color.green);
-			for (Triangle triangle : triangles) {
-				if (triangle.getA() != null && triangle.getB() != null && triangle.getC() != null) {
-					if (triangle.getCircumCircle().radius() <= maxCircleRadius) {
-						g.drawLine((float) triangle.getA().getX(), (float) triangle.getA().getY(), (float) triangle.getB().getX(), (float) triangle.getB().getY());
-						g.drawLine((float) triangle.getB().getX(), (float) triangle.getB().getY(), (float) triangle.getC().getX(), (float) triangle.getC().getY());
-						g.drawLine((float) triangle.getC().getX(), (float) triangle.getC().getY(), (float) triangle.getA().getX(), (float) triangle.getA().getY());
-					}
-				}
-			}
-		}
+	private static void fillTriangle(Graphics g, Triangle triangle) {
+		Polygon polygon = new Polygon(new float[]{
+					(float) triangle.getA().getX(),
+					(float) triangle.getA().getY(),
+					(float) triangle.getB().getX(),
+					(float) triangle.getB().getY(),
+					(float) triangle.getC().getX(),
+					(float) triangle.getC().getY()
+				});
+		polygon.setClosed(true);
 
-		if (centers != null) {
-			g.setColor(Color.darkGray);
-			for (Point point : centers) {
-				g.drawOval((float) (point.getX() - 1), (float) (point.getY() - 1), 3, 3);
-			}
-		}
+		g.fill(polygon);
 	}
 }
