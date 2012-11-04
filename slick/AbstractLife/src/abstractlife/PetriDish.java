@@ -9,6 +9,10 @@ import il.ac.idc.jdt.Triangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.luaj.vm2.LuaBoolean;
+import org.luaj.vm2.LuaInteger;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.JsePlatform;
 
 /**
  *
@@ -17,6 +21,7 @@ import java.util.Random;
 public class PetriDish {
 
 	private List<Cell> cells = new ArrayList<Cell>();
+	private LuaValue luaScript;
 
 	public List<Cell> getCells() {
 		return cells;
@@ -82,6 +87,9 @@ public class PetriDish {
 				}
 			}
 		}
+
+		// Load the LUA script
+		luaScript = JsePlatform.standardGlobals().loadFile("cell.lua");
 	}
 
 	public void runGeneration() {
@@ -100,9 +108,14 @@ public class PetriDish {
 				}
 			}
 
-			cell.setNextGenLiving(
-					livingNeighbors + livingIndirectNeighbors >= 3
-					&& livingNeighbors + livingIndirectNeighbors <= 5);
+			LuaValue result = luaScript.call(
+					LuaBoolean.valueOf(cell.isLiving()),
+					LuaInteger.valueOf(livingNeighbors),
+					LuaInteger.valueOf(livingIndirectNeighbors));
+
+			if (result.isboolean()) {
+				cell.setNextGenLiving(result.toboolean());
+			}
 		}
 
 		for (Cell cell : cells) {

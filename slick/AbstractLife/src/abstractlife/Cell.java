@@ -53,6 +53,5 @@ public class Cell extends Triangle {
 
 	public void flushNextGeneration() {
 		living = nextGenLiving;
-		nextGenLiving = false;
 	}
 }
