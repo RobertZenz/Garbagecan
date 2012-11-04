@@ -22,6 +22,18 @@ public class PetriDish {
 		return cells;
 	}
 
+	public Cell getCellAt(int x, int y) {
+		Point at = new Point(x, y);
+
+		for (Cell cell : cells) {
+			if (cell.contains(at)) {
+				return cell;
+			}
+		}
+
+		return null;
+	}
+
 	public void init(long seed, int pointsCount, int width, int height) {
 		Random random = new Random(seed);
 
@@ -73,6 +85,5 @@ public class PetriDish {
 	}
 
 	public void runGeneration() {
-		
 	}
 }

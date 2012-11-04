@@ -35,6 +35,18 @@ public class World extends BasicGame {
 	public void update(GameContainer container, int delta) throws SlickException {
 		Input input = container.getInput();
 
+		if (input.isMousePressed(0)) {
+			Cell cell = dish.getCellAt(input.getMouseX(), input.getMouseY());
+			if(cell != null) {
+				cell.setLiving(true);
+			}
+		}
+		if (input.isMousePressed(1)) {
+			Cell cell = dish.getCellAt(input.getMouseX(), input.getMouseY());
+			if(cell != null) {
+				cell.setLiving(false);
+			}
+		}
 		if (input.isKeyDown(Input.KEY_SPACE) || input.isKeyPressed(Input.KEY_RETURN)) {
 			dish.runGeneration();
 		}
