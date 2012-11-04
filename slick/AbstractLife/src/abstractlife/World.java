@@ -37,13 +37,13 @@ public class World extends BasicGame {
 
 		if (input.isMousePressed(0)) {
 			Cell cell = dish.getCellAt(input.getMouseX(), input.getMouseY());
-			if(cell != null) {
+			if (cell != null) {
 				cell.setLiving(true);
 			}
 		}
 		if (input.isMousePressed(1)) {
 			Cell cell = dish.getCellAt(input.getMouseX(), input.getMouseY());
-			if(cell != null) {
+			if (cell != null) {
 				cell.setLiving(false);
 			}
 		}
@@ -60,13 +60,14 @@ public class World extends BasicGame {
 		g.setBackground(Color.white);
 
 		for (Cell cell : dish.getCells()) {
-			g.setColor(Color.lightGray);
-			drawTriangle(g, cell);
-
 			if (cell.isLiving()) {
 				g.setColor(Color.black);
 				fillTriangle(g, cell);
 			}
+		}
+		g.setColor(Color.lightGray);
+		for (Cell cell : dish.getCells()) {
+			drawTriangle(g, cell);
 		}
 	}
 

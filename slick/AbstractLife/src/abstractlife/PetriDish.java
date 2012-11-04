@@ -85,5 +85,28 @@ public class PetriDish {
 	}
 
 	public void runGeneration() {
+		for (Cell cell : cells) {
+			int livingNeighbors = 0;
+			int livingIndirectNeighbors = 0;
+
+			for (Cell neighbor : cell.getDirectNeighbors()) {
+				if (neighbor.isLiving()) {
+					livingNeighbors++;
+				}
+			}
+			for (Cell neighbor : cell.getIndirectNeighbors()) {
+				if (neighbor.isLiving()) {
+					livingNeighbors++;
+				}
+			}
+
+			cell.setNextGenLiving(
+					livingNeighbors + livingIndirectNeighbors >= 3
+					&& livingNeighbors + livingIndirectNeighbors <= 5);
+		}
+
+		for (Cell cell : cells) {
+			cell.flushNextGeneration();
+		}
 	}
 }
