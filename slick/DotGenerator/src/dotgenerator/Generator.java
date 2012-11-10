@@ -75,7 +75,7 @@ public class Generator {
 
 		Random random = new Random(seed);
 
-		int part = (int) Math.sqrt(count);
+		int part = (int) Math.sqrt(width * height / count);
 
 		for (int y = 0; y < height; y += part) {
 			for (int x = 0; x < width; x += part) {

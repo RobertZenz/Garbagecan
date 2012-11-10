@@ -23,6 +23,8 @@ public class World extends BasicGame {
 	long seed = 0;
 	Generator generator;
 	List<Vector2f> points;
+	Vector2f lastMousePosition = new Vector2f(0, 0);
+	Vector2f viewOffset = new Vector2f(0, 0);
 
 	public World(String name) {
 		super(name);
@@ -39,6 +41,16 @@ public class World extends BasicGame {
 		Input input = container.getInput();
 
 		if (input.isMouseButtonDown(0)) {
+			if (container.isMouseGrabbed()) {
+				viewOffset.x += (lastMousePosition.x - input.getMouseX());
+				viewOffset.y += (lastMousePosition.y - input.getMouseY());
+			}
+
+			lastMousePosition.x = input.getMouseX();
+			lastMousePosition.y = input.getMouseY();
+			container.setMouseGrabbed(true);
+		} else {
+			container.setMouseGrabbed(false);
 		}
 
 		if (input.isKeyPressed(Input.KEY_1)) {
@@ -58,7 +70,7 @@ public class World extends BasicGame {
 
 		if (points != null) {
 			for (Vector2f point : points) {
-				g.fillOval(point.x - (pointSize / 2), point.y - (pointSize / 2), pointSize, pointSize);
+				g.fillOval(viewOffset.x + point.x - (pointSize / 2), viewOffset.y + point.y - (pointSize / 2), pointSize, pointSize);
 			}
 		}
 	}
