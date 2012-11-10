@@ -59,7 +59,7 @@ public class World extends BasicGame {
 		} else if (input.isKeyPressed(Input.KEY_2)) {
 			points = generator.randomEvenlyDistribution();
 		} else if (input.isKeyPressed(Input.KEY_3)) {
-			points = generator.randomEllipse();
+			points = generator.randomCircle();
 		}
 
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {

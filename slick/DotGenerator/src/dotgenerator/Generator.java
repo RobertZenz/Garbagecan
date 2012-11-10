@@ -86,7 +86,7 @@ public class Generator {
 		return points;
 	}
 
-	public List<Vector2f> randomEllipse() {
+	public List<Vector2f> randomCircle() {
 		List<Vector2f> points = new ArrayList<Vector2f>();
 
 		Random random = new Random(seed);
