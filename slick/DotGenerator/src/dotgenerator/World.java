@@ -25,7 +25,8 @@ public class World extends BasicGame {
 	List<Vector2f> points;
 	Vector2f lastMousePosition = new Vector2f(0, 0);
 	Vector2f viewOffset = new Vector2f(0, 0);
-
+	float zoom = 1f;
+	
 	public World(String name) {
 		super(name);
 	}
@@ -57,6 +58,8 @@ public class World extends BasicGame {
 			points = generator.randomDistribution();
 		} else if (input.isKeyPressed(Input.KEY_2)) {
 			points = generator.randomEvenlyDistribution();
+		} else if (input.isKeyPressed(Input.KEY_3)) {
+			points = generator.randomEllipse();
 		}
 
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {
@@ -65,12 +68,15 @@ public class World extends BasicGame {
 	}
 
 	public void render(GameContainer container, Graphics g) throws SlickException {
+		g.scale(zoom, zoom);
+		g.translate(viewOffset.x, viewOffset.y);
+		
 		g.setBackground(Color.black);
 		g.setColor(Color.white);
 
 		if (points != null) {
 			for (Vector2f point : points) {
-				g.fillOval(viewOffset.x + point.x - (pointSize / 2), viewOffset.y + point.y - (pointSize / 2), pointSize, pointSize);
+				g.fillOval(point.x - (pointSize / 2), point.y - (pointSize / 2), pointSize, pointSize);
 			}
 		}
 	}

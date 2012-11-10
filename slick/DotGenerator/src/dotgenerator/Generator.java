@@ -85,4 +85,32 @@ public class Generator {
 
 		return points;
 	}
+
+	public List<Vector2f> randomEllipse() {
+		List<Vector2f> points = new ArrayList<Vector2f>();
+
+		Random random = new Random(seed);
+
+		int segments = 5;
+		int part = width / segments;
+		int pointsPerSegment = count / segments;
+
+		for (int segment = 0; segment < segments; segment++) {
+			int segmentBegins = segment * part;
+
+			for (int counter = 0; counter < pointsPerSegment; counter++) {
+				float distance = random.nextInt(part);
+				float angle = (float) Math.toRadians(random.nextInt(360));
+
+				float x = (float) Math.cos(angle) * distance;
+				float y = (float) Math.sin(angle) * distance;
+
+				points.add(new Vector2f(
+						x + Math.signum(x) * segmentBegins,
+						y + Math.signum(y) * segmentBegins));
+			}
+		}
+
+		return points;
+	}
 }
