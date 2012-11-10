@@ -63,8 +63,24 @@ public class Generator {
 
 		Random random = new Random(seed);
 
-		for (int counter = 0; counter < count; counter++) {
+		while (points.size() < count) {
 			points.add(new Vector2f(random.nextInt(width), random.nextInt(height)));
+		}
+
+		return points;
+	}
+
+	public List<Vector2f> randomEvenlyDistribution() {
+		List<Vector2f> points = new ArrayList<Vector2f>();
+
+		Random random = new Random(seed);
+
+		int part = (int) Math.sqrt(count);
+
+		for (int y = 0; y < height; y += part) {
+			for (int x = 0; x < width; x += part) {
+				points.add(new Vector2f(x + random.nextInt(part), y + random.nextInt(part)));
+			}
 		}
 
 		return points;

@@ -43,6 +43,8 @@ public class World extends BasicGame {
 
 		if (input.isKeyPressed(Input.KEY_1)) {
 			points = generator.randomDistribution();
+		} else if (input.isKeyPressed(Input.KEY_2)) {
+			points = generator.randomEvenlyDistribution();
 		}
 
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {

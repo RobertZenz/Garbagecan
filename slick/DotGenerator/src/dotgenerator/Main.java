@@ -21,6 +21,7 @@ public class Main {
 			AppGameContainer app = new AppGameContainer(new World("DotGenerator"));
 			app.setDisplayMode(1200, 800, false);
 			app.setShowFPS(true);
+			app.setTargetFrameRate(60);
 			app.start();
 		} catch (SlickException ex) {
 			System.err.println(ex);
