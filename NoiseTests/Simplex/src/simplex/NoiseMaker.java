@@ -10,11 +10,19 @@ package simplex;
 public class NoiseMaker {
 
 	public static double[] getNoise(int width, int height) {
+		return getNoise(new SimplexNoise(), width, height);
+	}
+
+	public static double[] getNoise(long seed, int width, int height) {
+		return getNoise(new SimplexNoise(seed), width, height);
+	}
+
+	public static double[] getNoise(SimplexNoise simplex, int width, int height) {
 		double[] values = new double[width * height];
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				values[y * width + x] = SimplexNoise.noise(x, y);
+				values[y * width + x] = simplex.noise(x, y);
 			}
 		}
 

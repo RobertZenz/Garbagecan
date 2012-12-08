@@ -10,6 +10,8 @@
  */
 package simplex;
 
+import java.awt.event.KeyEvent;
+
 /**
  *
  * @author robert
@@ -17,14 +19,14 @@ package simplex;
 public class MainWindow extends java.awt.Frame {
 
 	private NoiseCanvas canvas;
-	
+
 	/** Creates new form MainWindow */
 	public MainWindow() {
 		initComponents();
-		
+
 		canvas = new NoiseCanvas();
 		add(canvas);
-		
+
 		canvas.setSize(800, 600);
 	}
 
@@ -43,6 +45,11 @@ public class MainWindow extends java.awt.Frame {
                 exitForm(evt);
             }
         });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                formKeyTyped(evt);
+            }
+        });
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         pack();
@@ -52,6 +59,23 @@ public class MainWindow extends java.awt.Frame {
     private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
 		System.exit(0);
     }//GEN-LAST:event_exitForm
+
+private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
+	if (evt.getKeyChar() == '+') {
+		if (canvas.isUseSeed()) {
+			canvas.setSeed(canvas.getSeed() + 1);
+		}
+		canvas.setUseSeed(true);
+		canvas.repaint();
+	} else if (evt.getKeyChar() == '-') {
+		if (canvas.getSeed() > 0) {
+			canvas.setSeed(canvas.getSeed() - 1);
+		} else {
+			canvas.setUseSeed(false);
+		}
+		canvas.repaint();
+	}
+}//GEN-LAST:event_formKeyTyped
 
 	/**
 	 * @param args the command line arguments

@@ -1,5 +1,7 @@
 package simplex;
 
+import java.util.Random;
+
 /*
  * A speed-improved simplex noise algorithm for 2D, 3D and 4D in Java.
  *
@@ -18,10 +20,10 @@ package simplex;
  */
 public class SimplexNoise {  // Simplex noise in 2D, 3D and 4D
 
-	private static Grad grad3[] = {new Grad(1, 1, 0), new Grad(-1, 1, 0), new Grad(1, -1, 0), new Grad(-1, -1, 0),
+	private Grad grad3[] = {new Grad(1, 1, 0), new Grad(-1, 1, 0), new Grad(1, -1, 0), new Grad(-1, -1, 0),
 		new Grad(1, 0, 1), new Grad(-1, 0, 1), new Grad(1, 0, -1), new Grad(-1, 0, -1),
 		new Grad(0, 1, 1), new Grad(0, -1, 1), new Grad(0, 1, -1), new Grad(0, -1, -1)};
-	private static Grad grad4[] = {new Grad(0, 1, 1, 1), new Grad(0, 1, 1, -1), new Grad(0, 1, -1, 1), new Grad(0, 1, -1, -1),
+	private Grad grad4[] = {new Grad(0, 1, 1, 1), new Grad(0, 1, 1, -1), new Grad(0, 1, -1, 1), new Grad(0, 1, -1, -1),
 		new Grad(0, -1, 1, 1), new Grad(0, -1, 1, -1), new Grad(0, -1, -1, 1), new Grad(0, -1, -1, -1),
 		new Grad(1, 0, 1, 1), new Grad(1, 0, 1, -1), new Grad(1, 0, -1, 1), new Grad(1, 0, -1, -1),
 		new Grad(-1, 0, 1, 1), new Grad(-1, 0, 1, -1), new Grad(-1, 0, -1, 1), new Grad(-1, 0, -1, -1),
@@ -29,7 +31,7 @@ public class SimplexNoise {  // Simplex noise in 2D, 3D and 4D
 		new Grad(-1, 1, 0, 1), new Grad(-1, 1, 0, -1), new Grad(-1, -1, 0, 1), new Grad(-1, -1, 0, -1),
 		new Grad(1, 1, 1, 0), new Grad(1, 1, -1, 0), new Grad(1, -1, 1, 0), new Grad(1, -1, -1, 0),
 		new Grad(-1, 1, 1, 0), new Grad(-1, 1, -1, 0), new Grad(-1, -1, 1, 0), new Grad(-1, -1, -1, 0)};
-	private static short p[] = {151, 160, 137, 91, 90, 15,
+	private short p[] = {151, 160, 137, 91, 90, 15,
 		131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23,
 		190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33,
 		88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166,
@@ -46,7 +48,21 @@ public class SimplexNoise {  // Simplex noise in 2D, 3D and 4D
 	private static short perm[] = new short[512];
 	private static short permMod12[] = new short[512];
 
-	static {
+	public SimplexNoise() {
+		init();
+	}
+
+	public SimplexNoise(long seed) {
+		Random random = new Random(seed);
+
+		for (int idx = 0; idx < p.length; idx++) {
+			p[idx] = (short) random.nextInt(256);
+		}
+		
+		init();
+	}
+
+	private void init() {
 		for (int i = 0; i < 512; i++) {
 			perm[i] = p[i & 255];
 			permMod12[i] = (short) (perm[i] % 12);
@@ -79,7 +95,7 @@ public class SimplexNoise {  // Simplex noise in 2D, 3D and 4D
 	}
 
 	// 2D simplex noise
-	public static double noise(double xin, double yin) {
+	public double noise(double xin, double yin) {
 		double n0, n1, n2; // Noise contributions from the three corners
 		// Skew the input space to determine which simplex cell we're in
 		double s = (xin + yin) * F2; // Hairy factor for 2D
@@ -142,7 +158,7 @@ public class SimplexNoise {  // Simplex noise in 2D, 3D and 4D
 	}
 
 	// 3D simplex noise
-	public static double noise(double xin, double yin, double zin) {
+	public double noise(double xin, double yin, double zin) {
 		double n0, n1, n2, n3; // Noise contributions from the four corners
 		// Skew the input space to determine which simplex cell we're in
 		double s = (xin + yin + zin) * F3; // Very nice and simple skew factor for 3D
@@ -267,7 +283,7 @@ public class SimplexNoise {  // Simplex noise in 2D, 3D and 4D
 	}
 
 	// 4D simplex noise, better simplex rank ordering method 2012-03-09
-	public static double noise(double x, double y, double z, double w) {
+	public double noise(double x, double y, double z, double w) {
 
 		double n0, n1, n2, n3, n4; // Noise contributions from the five corners
 		// Skew the (x,y,z,w) space to determine which cell of 24 simplices we're in
