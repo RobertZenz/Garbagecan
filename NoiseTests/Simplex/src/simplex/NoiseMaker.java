@@ -61,4 +61,38 @@ public class NoiseMaker {
 
 		return values;
 	}
+
+	// Yeah, this is C&P-Reuse...
+	public static double[] stretchArrayLinear(
+			int originalWidth, int originalHeight, double[] originalValues,
+			int factor) {
+
+		double[] values = new double[(originalWidth * factor) * (originalHeight * factor)];
+
+
+		for (int x = 0; x < originalWidth - 1; x++) {
+			for (int y = 0; y < originalHeight - 1; y++) {
+				double topLeft = originalValues[y * originalWidth + x];
+				double topRight = originalValues[y * originalWidth + (x + 1)];
+				double bottomLeft = originalValues[(y + 1) * originalWidth + x];
+				double bottomRight = originalValues[(y + 1) * originalWidth + (x + 1)];
+
+				for (int newX = 0; newX < factor; newX++) {
+					double currentTop = Helper.interpolate(topLeft, topRight, (float) newX / factor);
+					double currentBottom = Helper.interpolate(bottomLeft, bottomRight, (float) newX / factor);
+
+					int currentX = (x * factor) + newX;
+
+					for (int newY = 0; newY < factor; newY++) {
+						double current = Helper.interpolate(currentTop, currentBottom, (float) newY / factor);
+						int currentY = (y * factor) + newY;
+
+						values[currentY * (originalWidth * factor) + currentX] = current;
+					}
+				}
+			}
+		}
+
+		return values;
+	}
 }

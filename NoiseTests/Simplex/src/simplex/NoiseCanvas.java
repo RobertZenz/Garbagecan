@@ -18,6 +18,7 @@ public class NoiseCanvas extends Canvas {
 	private List<ColorRange> colorRanges = new ArrayList<ColorRange>();
 	private int stepWidth = 50;
 	private boolean useColor = false;
+	private boolean useCosine = true;
 	private boolean useSeed = false;
 	private long seed = 0;
 
@@ -61,6 +62,14 @@ public class NoiseCanvas extends Canvas {
 		this.useColor = useColor;
 	}
 
+	public boolean isUseCosine() {
+		return useCosine;
+	}
+
+	public void setUseCosine(boolean useCosine) {
+		this.useCosine = useCosine;
+	}
+
 	public NoiseCanvas() {
 		super();
 
@@ -86,8 +95,11 @@ public class NoiseCanvas extends Canvas {
 		} else {
 			values = NoiseMaker.getNoise(smallWidth, smallHeight);
 		}
+		if(useCosine) {
 		values = NoiseMaker.stretchArrayCosine(smallWidth, smallHeight, values, stepWidth);
-
+		} else {
+		values = NoiseMaker.stretchArrayLinear(smallWidth, smallHeight, values, stepWidth);
+		}
 		for (int x = 0; x < smallWidth * stepWidth; x++) {
 			for (int y = 0; y < smallHeight * stepWidth; y++) {
 				double value = values[y * smallWidth * stepWidth + x];
