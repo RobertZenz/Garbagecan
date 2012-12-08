@@ -27,18 +27,18 @@ public class NoiseCanvas extends Canvas {
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		int smallWidth = getWidth() / stepWidth;
-		int smallHeight = getHeight() / stepWidth;
+		int smallWidth = getWidth() / stepWidth + 1;
+		int smallHeight = getHeight() / stepWidth + 1;
 
 
 		double[] values = NoiseMaker.getNoise(smallWidth, smallHeight);
 		values = NoiseMaker.stretchArrayCosine(smallWidth, smallHeight, values, stepWidth);
 
 		for (int x = 0; x < smallWidth * stepWidth; x++) {
-			for(int y = 0; y < smallHeight * stepWidth; y++) {
+			for (int y = 0; y < smallHeight * stepWidth; y++) {
 				double value = values[y * smallWidth * stepWidth + x];
-				int colorValue = 128 + (int)(value * 128);
-				
+				int colorValue = 128 + (int) (value * 128);
+
 				g.setColor(new Color(colorValue, colorValue, colorValue));
 				g.fillRect(x, y, 1, 1);
 			}
