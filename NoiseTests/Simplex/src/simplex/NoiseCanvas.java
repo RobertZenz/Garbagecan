@@ -6,6 +6,8 @@ package simplex;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,7 +15,9 @@ import java.awt.Graphics;
  */
 public class NoiseCanvas extends Canvas {
 
+	private List<ColorRange> colorRanges = new ArrayList<ColorRange>();
 	private int stepWidth = 50;
+	private boolean useColor = false;
 	private boolean useSeed = false;
 	private long seed = 0;
 
@@ -41,6 +45,34 @@ public class NoiseCanvas extends Canvas {
 		this.useSeed = useSeed;
 	}
 
+	public List<ColorRange> getColorRanges() {
+		return colorRanges;
+	}
+
+	public void setColorRanges(List<ColorRange> colorRanges) {
+		this.colorRanges = colorRanges;
+	}
+
+	public boolean isUseColor() {
+		return useColor;
+	}
+
+	public void setUseColor(boolean useColor) {
+		this.useColor = useColor;
+	}
+
+	public NoiseCanvas() {
+		super();
+
+		colorRanges.add(new ColorRange(-1, -0.75, Color.black));
+		colorRanges.add(new ColorRange(-0.75, -0.5, Color.blue));
+		colorRanges.add(new ColorRange(-0.5, -0.25, Color.cyan));
+		colorRanges.add(new ColorRange(0, 0.25, Color.yellow));
+		colorRanges.add(new ColorRange(0.25, 0.5, Color.orange));
+		colorRanges.add(new ColorRange(0.5, 0.75, Color.green));
+		colorRanges.add(new ColorRange(0.75, 1.01, Color.white));
+	}
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -59,13 +91,19 @@ public class NoiseCanvas extends Canvas {
 		for (int x = 0; x < smallWidth * stepWidth; x++) {
 			for (int y = 0; y < smallHeight * stepWidth; y++) {
 				double value = values[y * smallWidth * stepWidth + x];
-				int colorValue = 128 + (int) (value * 128);
-
-				g.setColor(new Color(colorValue, colorValue, colorValue));
+				if (useColor) {
+					for (ColorRange range : colorRanges) {
+						if (value >= range.getMin() && value < range.getMax()) {
+							g.setColor(range.getColor());
+						}
+					}
+				} else {
+					int colorValue = 128 + (int) (value * 128);
+					g.setColor(new Color(colorValue, colorValue, colorValue));
+				}
 				g.fillRect(x, y, 1, 1);
 			}
 		}
-
 
 		g.setColor(Color.ORANGE);
 		if (useSeed) {

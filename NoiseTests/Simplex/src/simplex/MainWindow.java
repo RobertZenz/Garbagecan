@@ -74,6 +74,9 @@ private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKe
 			canvas.setUseSeed(false);
 		}
 		canvas.repaint();
+	} else if (evt.getKeyChar() == 'c') {
+		canvas.setUseColor(!canvas.isUseColor());
+		canvas.repaint();
 	}
 }//GEN-LAST:event_formKeyTyped
 
