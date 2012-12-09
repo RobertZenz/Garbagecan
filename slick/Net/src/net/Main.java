@@ -22,7 +22,7 @@ public class Main {
 		try {
 			AppGameContainer app = new AppGameContainer(world);
 			app.setAlwaysRender(true);
-			app.setDisplayMode(1280, 800, true);
+			app.setDisplayMode(1280, 800, false);
 			app.setTargetFrameRate(60);
 			app.setShowFPS(true);
 			app.start();

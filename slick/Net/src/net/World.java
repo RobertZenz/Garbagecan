@@ -3,6 +3,8 @@
  */
 package net;
 
+import il.ac.idc.jdt.DelaunayTriangulation;
+import il.ac.idc.jdt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,10 +23,11 @@ import org.newdawn.slick.geom.Vector2f;
 public class World extends BasicGame {
 
 	private int border = 20;
+	private DelaunayTriangulation delaunay;
 	private float maximumVelocity = 0.5f;
 	private float minimumDistance = 100;
 	private int pointCount = 200;
-	private List<Vector2f> points = new ArrayList<Vector2f>();
+	private List<Point> points = new ArrayList<Point>();
 	private Random random = new Random(0);
 	private float speed = 0.2f;
 	private List<Vector2f> velocities = new ArrayList<Vector2f>();
@@ -35,8 +38,10 @@ public class World extends BasicGame {
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
+		delaunay = new DelaunayTriangulation(points);
+
 		for (int counter = 0; counter < pointCount; counter++) {
-			points.add(new Vector2f(random.nextFloat() * container.getWidth(),
+			points.add(new Point(random.nextFloat() * container.getWidth(),
 					random.nextFloat() * container.getHeight()));
 			velocities.add(new Vector2f(random.nextFloat() - 0.5f, random.nextFloat() - 0.5f));
 		}
@@ -45,7 +50,7 @@ public class World extends BasicGame {
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		for (int idx = 0; idx < pointCount; idx++) {
-			Vector2f point = points.get(idx);
+			Point point = points.get(idx);
 			Vector2f velocity = velocities.get(idx);
 
 			velocity.x += (random.nextFloat() - 0.5) * speed;
@@ -64,20 +69,20 @@ public class World extends BasicGame {
 				velocity.y = -maximumVelocity;
 			}
 
-			point.x += velocity.x;
-			point.y += velocity.y;
+			point.setX(point.getX() + velocity.getX());
+			point.setY(point.getY() + velocity.getY());
 
-			if (point.x < border) {
-				point.x = container.getWidth() - border;
+			if (point.getX() < border) {
+				point.setX(container.getWidth() - border);
 			}
-			if (point.x > container.getWidth() - border) {
-				point.x = border;
+			if (point.getX() > container.getWidth() - border) {
+				point.setX(border);
 			}
-			if (point.y < border) {
-				point.y = container.getHeight() - border;
+			if (point.getY() < border) {
+				point.setY(container.getHeight() - border);
 			}
-			if (point.y > container.getHeight() - border) {
-				point.y = border;
+			if (point.getY() > container.getHeight() - border) {
+				point.setY(border);
 			}
 		}
 
@@ -95,15 +100,16 @@ public class World extends BasicGame {
 
 		for (int i = 0; i < pointCount; i++) {
 			for (int j = i + 1; j < pointCount; j++) {
-				Vector2f pointA = points.get(i);
-				Vector2f pointB = points.get(j);
-				float distance = pointA.distance(pointB);
+				Point pointA = points.get(i);
+				Point pointB = points.get(j);
+				double distance = pointA.distance(pointB);
 				if (distance <= minimumDistance) {
-					color.a = 1 - distance / minimumDistance;
-					color.r = distance / minimumDistance;
+					color.a = (float)(1 - distance / minimumDistance);
+					color.r = (float)(distance / minimumDistance);
 					color.g = 1 - color.r;
 					g.setColor(color);
-					g.drawLine(pointA.x, pointA.y, pointB.x, pointB.y);
+					g.drawLine((float)pointA.getX(), (float)pointA.getY(),
+							(float)pointB.getX(), (float)pointB.getY());
 				}
 			}
 		}
