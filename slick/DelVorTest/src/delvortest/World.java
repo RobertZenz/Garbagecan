@@ -74,8 +74,8 @@ public class World extends BasicGame {
 		if (drawDelaunay) {
 			g.setColor(Color.blue);
 			for (Triangle triangle : delaunay.getTriangulation()) {
+				drawLine(g, triangle.getA(), triangle.getB());
 				if (!triangle.isHalfplane()) {
-					drawLine(g, triangle.getA(), triangle.getB());
 					drawLine(g, triangle.getB(), triangle.getC());
 					drawLine(g, triangle.getC(), triangle.getA());
 				}
