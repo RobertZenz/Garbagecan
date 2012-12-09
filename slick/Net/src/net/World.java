@@ -95,7 +95,7 @@ public class World extends BasicGame {
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		g.setBackground(Color.black);
 
-		renderDelaunay(g);
+		renderVoronoi(g);
 	}
 
 	public float getMinimumDistance() {
@@ -131,11 +131,24 @@ public class World extends BasicGame {
 		}
 	}
 
+	private void renderVoronoi(Graphics g) {
+		DelaunayTriangulation delaunay = new DelaunayTriangulation(points);
+		for (Triangle triangle : delaunay.getTriangulation()) {
+			Point[] vorPoints = delaunay.calcVoronoiCell(triangle, triangle.getA());
+			if (vorPoints.length >= 2) {
+				for (int idx = 0; idx < vorPoints.length - 1; idx++) {
+					checkAndDraw(g, vorPoints[idx], vorPoints[idx + 1]);
+				}
+				checkAndDraw(g, vorPoints[vorPoints.length - 1], vorPoints[0]);
+			}
+		}
+	}
+
 	private void checkAndDraw(Graphics g, Point a, Point b) {
-		if(a == null || b == null  ) {
+		if (a == null || b == null) {
 			return;
 		}
-		
+
 		double distance = a.distance(b);
 
 		if (distance <= minimumDistance) {
