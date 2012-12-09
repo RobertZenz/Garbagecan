@@ -5,6 +5,7 @@ package net;
 
 import il.ac.idc.jdt.DelaunayTriangulation;
 import il.ac.idc.jdt.Point;
+import il.ac.idc.jdt.Triangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,7 +24,6 @@ import org.newdawn.slick.geom.Vector2f;
 public class World extends BasicGame {
 
 	private int border = 20;
-	private DelaunayTriangulation delaunay;
 	private float maximumVelocity = 0.5f;
 	private float minimumDistance = 100;
 	private int pointCount = 200;
@@ -38,11 +38,10 @@ public class World extends BasicGame {
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
-		delaunay = new DelaunayTriangulation(points);
-
 		for (int counter = 0; counter < pointCount; counter++) {
-			points.add(new Point(random.nextFloat() * container.getWidth(),
-					random.nextFloat() * container.getHeight()));
+			Point point = new Point(random.nextFloat() * container.getWidth(),
+					random.nextFloat() * container.getHeight());
+			points.add(point);
 			velocities.add(new Vector2f(random.nextFloat() - 0.5f, random.nextFloat() - 0.5f));
 		}
 	}
@@ -96,23 +95,7 @@ public class World extends BasicGame {
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		g.setBackground(Color.black);
 
-		Color color = new Color(1f, 1f, 1f);
-
-		for (int i = 0; i < pointCount; i++) {
-			for (int j = i + 1; j < pointCount; j++) {
-				Point pointA = points.get(i);
-				Point pointB = points.get(j);
-				double distance = pointA.distance(pointB);
-				if (distance <= minimumDistance) {
-					color.a = (float)(1 - distance / minimumDistance);
-					color.r = (float)(distance / minimumDistance);
-					color.g = 1 - color.r;
-					g.setColor(color);
-					g.drawLine((float)pointA.getX(), (float)pointA.getY(),
-							(float)pointB.getX(), (float)pointB.getY());
-				}
-			}
-		}
+		renderDelaunay(g);
 	}
 
 	public float getMinimumDistance() {
@@ -129,5 +112,40 @@ public class World extends BasicGame {
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
+	}
+
+	private void renderMishMash(Graphics g) {
+		for (int i = 0; i < pointCount; i++) {
+			for (int j = i + 1; j < pointCount; j++) {
+				checkAndDraw(g, points.get(i), points.get(j));
+			}
+		}
+	}
+
+	private void renderDelaunay(Graphics g) {
+		DelaunayTriangulation delaunay = new DelaunayTriangulation(points);
+		for (Triangle triangle : delaunay.getTriangulation()) {
+			checkAndDraw(g, triangle.getA(), triangle.getB());
+			checkAndDraw(g, triangle.getB(), triangle.getC());
+			checkAndDraw(g, triangle.getC(), triangle.getA());
+		}
+	}
+
+	private void checkAndDraw(Graphics g, Point a, Point b) {
+		if(a == null || b == null  ) {
+			return;
+		}
+		
+		double distance = a.distance(b);
+
+		if (distance <= minimumDistance) {
+			Color color = new Color(1f, 1f, 1f);
+			color.a = (float) (1 - distance / minimumDistance);
+			color.r = (float) (distance / minimumDistance);
+			color.g = 1 - color.r;
+			g.setColor(color);
+			g.drawLine((float) a.getX(), (float) a.getY(),
+					(float) b.getX(), (float) b.getY());
+		}
 	}
 }
