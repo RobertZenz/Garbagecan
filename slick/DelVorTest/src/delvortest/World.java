@@ -50,33 +50,21 @@ public class World extends BasicGame {
 		if (input.isMousePressed(0)) {
 			int x = input.getMouseX();
 			int y = input.getMouseY();
-			points.add(new Vector2f(x, y));
-			delaunay.insertPoint(new Point(x, y));
 
-			voronoi.clear();
-			for (Triangle triangle : delaunay.getTriangulation()) {
-				if (triangle.getA() != null) {
-					voronoi.add(delaunay.calcVoronoiCell(triangle, triangle.getA()));
-				}
-				if (triangle.getB() != null) {
-					voronoi.add(delaunay.calcVoronoiCell(triangle, triangle.getB()));
-				}
-				if (triangle.getC() != null) {
-					voronoi.add(delaunay.calcVoronoiCell(triangle, triangle.getC()));
-				}
-			}
-
+			addPoint(x, y);
+			calcVoronoi();
 		}
 
-		if(input.isKeyPressed(Input.KEY_1)) {
+		if (input.isKeyPressed(Input.KEY_1)) {
 			drawPoints = !drawPoints;
 		}
-		if(input.isKeyPressed(Input.KEY_2)) {
+		if (input.isKeyPressed(Input.KEY_2)) {
 			drawDelaunay = !drawDelaunay;
 		}
-		if(input.isKeyPressed(Input.KEY_3)) {
+		if (input.isKeyPressed(Input.KEY_3)) {
 			drawVoronoi = !drawVoronoi;
 		}
+
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			container.exit();
 		}
@@ -112,6 +100,26 @@ public class World extends BasicGame {
 			g.setColor(Color.black);
 			for (Vector2f point : points) {
 				g.drawOval(point.getX() - (POINT_SIZE / 2), point.getY() - (POINT_SIZE / 2), POINT_SIZE, POINT_SIZE);
+			}
+		}
+	}
+
+	private void addPoint(int x, int y) {
+		points.add(new Vector2f(x, y));
+		delaunay.insertPoint(new Point(x, y));
+	}
+
+	private void calcVoronoi() {
+		voronoi.clear();
+		for (Triangle triangle : delaunay.getTriangulation()) {
+			if (triangle.getA() != null) {
+				voronoi.add(delaunay.calcVoronoiCell(triangle, triangle.getA()));
+			}
+			if (triangle.getB() != null) {
+				voronoi.add(delaunay.calcVoronoiCell(triangle, triangle.getB()));
+			}
+			if (triangle.getC() != null) {
+				voronoi.add(delaunay.calcVoronoiCell(triangle, triangle.getC()));
 			}
 		}
 	}
