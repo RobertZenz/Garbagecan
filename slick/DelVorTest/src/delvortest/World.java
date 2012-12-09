@@ -3,8 +3,6 @@
  */
 package delvortest;
 
-import be.humphreys.simplevoronoi.GraphEdge;
-import be.humphreys.simplevoronoi.Voronoi;
 import il.ac.idc.jdt.DelaunayTriangulation;
 import il.ac.idc.jdt.Point;
 import il.ac.idc.jdt.Triangle;
@@ -112,15 +110,7 @@ public class World extends BasicGame {
 	private void calcVoronoi() {
 		voronoi.clear();
 		for (Triangle triangle : delaunay.getTriangulation()) {
-			if (triangle.getA() != null) {
-				voronoi.add(delaunay.calcVoronoiCell(triangle, triangle.getA()));
-			}
-			if (triangle.getB() != null) {
-				voronoi.add(delaunay.calcVoronoiCell(triangle, triangle.getB()));
-			}
-			if (triangle.getC() != null) {
-				voronoi.add(delaunay.calcVoronoiCell(triangle, triangle.getC()));
-			}
+			voronoi.add(delaunay.calcVoronoiCell(triangle, triangle.getA()));
 		}
 	}
 
