@@ -29,11 +29,11 @@ public class World extends BasicGame {
 	public void update(GameContainer container, int delta) throws SlickException {
 		Input input = container.getInput();
 
-		if (input.isKeyPressed(Input.KEY_ADD)) {
+		if (input.isKeyPressed(Input.KEY_ADD) || input.isKeyPressed(Input.KEY_LEFT)) {
 			segments = new Segment[segments.length + 1];
 			createNoise(container.getHeight() / 2, container.getWidth() / segments.length);
 		}
-		if (input.isKeyPressed((Input.KEY_SUBTRACT))) {
+		if (input.isKeyPressed(Input.KEY_SUBTRACT) || input.isKeyPressed(Input.KEY_RIGHT)) {
 			segments = new Segment[segments.length - 1];
 			createNoise(container.getHeight() / 2, container.getWidth() / segments.length);
 		}
@@ -52,14 +52,23 @@ public class World extends BasicGame {
 		for (int idx = 0; idx < segments.length; idx++) {
 			Segment segment = segments[idx];
 
-			g.setColor(Color.white);
-			int[] interpolated = segment.getInterpolated();
-			for (int resIdx = 0; resIdx < xStep - 1; resIdx++) {
-				g.drawLine((xStep * idx) + resIdx, middle + interpolated[resIdx], (xStep * idx) + resIdx + 1, middle + interpolated[resIdx + 1]);
-			}
+			g.setColor(Color.yellow);
+			render(g, segment.getLinear(), xStep, idx, middle);
+
+			g.setColor(Color.green);
+			render(g, segment.getCosine(), xStep, idx, middle);
+
+			g.setColor(Color.cyan);
+			render(g, segment.getCubic(), xStep, idx, middle);
 
 			g.setColor(Color.red);
-			g.drawRect(idx * xStep, middle + segment.getStart(), 1, 1);
+			g.drawRect(idx * xStep - 1, middle + segment.getStart() - 1, 2, 2);
+		}
+	}
+
+	public void render(Graphics g, int[] interpolated, int xStep, int idx, int middle) {
+		for (int resIdx = 0; resIdx < xStep - 1; resIdx++) {
+			g.drawLine((xStep * idx) + resIdx, middle + interpolated[resIdx], (xStep * idx) + resIdx + 1, middle + interpolated[resIdx + 1]);
 		}
 	}
 
@@ -70,6 +79,17 @@ public class World extends BasicGame {
 					(int) (noise.noise(idx, 0) * height),
 					(int) (noise.noise(idx + 1, 0) * height),
 					resolution);
+		}
+
+		for (int idx = 0; idx < segments.length; idx++) {
+			if (idx > 0) {
+				segments[idx].setNeighborLeft(segments[idx - 1]);
+			}
+			if (idx < segments.length - 1) {
+				segments[idx].setNeighborRight(segments[idx + 1]);
+			}
+
+			segments[idx].interpolate();
 		}
 	}
 }
