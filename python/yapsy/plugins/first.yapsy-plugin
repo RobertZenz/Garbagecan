@@ -1,0 +1,9 @@
+[Core]
+Name = First Plugin
+Module = first
+
+[Documentation]
+Description = The first plugin to be created.
+Author = Robert 'Bobby' Zenz
+Version = 0.1
+Website = http://www.bonsaimind.org
